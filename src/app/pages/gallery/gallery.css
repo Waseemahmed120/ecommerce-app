@@ -1,0 +1,18 @@
+/* 
+@media (max-width: 375px) {
+  input,
+  button {
+    width: 100%;
+  }
+}
+
+
+
+.table-responsive {
+  overflow-x: auto;
+  -webkit-overflow-scrolling: touch;
+}
+
+table {
+  min-width: 600px; 
+} */

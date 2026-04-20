@@ -1,0 +1,64 @@
+
+<div class="d-flex min-vh-100 overflow-hidden">
+
+  <!-- Sidebar -->
+  <aside
+    class="sidebar bg-dark text-white p-3 d-flex flex-column"
+    [class.open]="isSidebarOpen"
+  >
+    <h3 class="mb-4 border-bottom border-secondary pb-2">
+      Dashboard
+    </h3>
+
+    <nav class="nav nav-pills flex-column gap-2">
+      <a
+        class="nav-link text-white"
+        routerLink="users"
+        routerLinkActive="active"
+        [routerLinkActiveOptions]="{ exact: true }"
+        (click)="closeSidebar()"
+      >
+        👤 Users
+      </a>
+
+      <a
+        class="nav-link text-white"
+        routerLink="gallery"
+        routerLinkActive="active"
+        (click)="closeSidebar()"
+      >
+        🖼️ Gallery
+      </a>
+    </nav>
+
+    <button
+      class="btn btn-outline-light mt-auto"
+      (click)="logout()"
+    >
+      Logout
+    </button>
+  </aside>
+
+  <!-- Main Content Area -->
+  <div class="flex-grow-1">
+
+    <!-- Top Navbar (Mobile Only) -->
+    <nav class="navbar navbar-dark bg-dark d-md-none">
+      <div class="container-fluid">
+        <button
+          class="navbar-toggler"
+          type="button"
+          (click)="toggleSidebar()"
+        >
+          <span class="navbar-toggler-icon"></span>
+        </button>
+        <span class="navbar-brand ms-2">Dashboard</span>
+      </div>
+    </nav>
+
+    <main class="content p-3" (click)="closeSidebar()">
+      <router-outlet></router-outlet>
+    </main>
+  </div>
+
+</div>

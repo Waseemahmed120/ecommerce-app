@@ -1,0 +1,55 @@
+
+* {
+  box-sizing: border-box;
+}
+
+:host {
+  display: block;
+  width: 100%;
+}
+
+.sidebar {
+  width: 240px;
+  min-width: 240px;
+  max-width: 240px;
+  transition: transform 0.3s ease;
+}
+
+.content {
+  max-width: 100%;
+  overflow-x: hidden;
+}
+
+@media (max-width: 767px) {
+  .sidebar {
+    position: fixed;
+    top: 0;
+    left: 0;
+    height: 100vh;
+    z-index: 1050;
+    transform: translateX(-100%);
+  }
+
+  .sidebar.open {
+    transform: translateX(0);
+  }
+
+  .content {
+    padding-top: 1rem;
+  }
+}
+
+
+
+/* ===== SMALL DEVICES (iPhone SE, 320px) ===== */
+@media (max-width: 375px) {
+  .sidebar {
+    width: 200px;
+    min-width: 200px;
+    max-width: 200px;
+  }
+
+  .navbar-brand {
+    font-size: 0.95rem;
+  }
+}

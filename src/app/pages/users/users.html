@@ -1,0 +1,135 @@
+﻿
+<div class="container-fluid px-0 ">
+
+  <!-- HEADER -->
+  <div class="d-flex justify-content-between align-items-center mb-4">
+    <h4 class="fw-semibold mb-0">Users</h4>
+  </div>
+
+  <!-- ADD USER -->
+  <div class="card shadow-sm mb-4">
+    <div class="card-header bg-white fw-semibold">
+      Add User
+    </div>
+
+    <div class="card-body">
+      <form (ngSubmit)="addUser()">
+        <div class="row g-3">
+
+          <div class="col-12 col-md-6 col-lg-3">
+            <input class="form-control" placeholder="First Name"
+              [(ngModel)]="newUser.firstName" name="firstName" required />
+          </div>
+
+          <div class="col-12 col-md-6 col-lg-3">
+            <input class="form-control" placeholder="Last Name"
+              [(ngModel)]="newUser.lastName" name="lastName" required />
+          </div>
+
+          <div class="col-12 col-md-6 col-lg-3">
+            <input class="form-control" placeholder="Email"
+              [(ngModel)]="newUser.email" name="email" />
+          </div>
+
+          <div class="col-12 col-md-6 col-lg-3">
+            <input class="form-control" placeholder="Username"
+              [(ngModel)]="newUser.username" name="username" />
+          </div>
+
+          <div class="col-12 d-grid d-md-flex justify-content-md-end">
+            <button class="btn btn-primary px-4">Add User</button>
+          </div>
+
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <!-- EDIT USER -->
+  <div *ngIf="editingUser" class="card shadow-sm border-warning mb-4">
+    <div class="card-header fw-semibold">Edit User</div>
+
+    <div class="card-body">
+      <div class="row g-3">
+
+        <div class="col-12 col-md-6 col-lg-3">
+          <input class="form-control"
+            [(ngModel)]="editingUser.firstName" name="editFirstName" />
+        </div>
+
+        <div class="col-12 col-md-6 col-lg-3">
+          <input class="form-control"
+            [(ngModel)]="editingUser.lastName" name="editLastName" />
+        </div>
+
+        <div class="col-12 col-md-6 col-lg-3">
+          <input class="form-control"
+            [(ngModel)]="editingUser.email" name="editEmail" />
+        </div>
+
+        <div class="col-12 col-md-6 col-lg-3">
+          <input class="form-control"
+            [(ngModel)]="editingUser.username" name="editUsername" />
+        </div>
+
+        <div class="col-12 d-flex flex-column flex-sm-row justify-content-end gap-2">
+          <button class="btn btn-success px-4" (click)="saveUser()">Save</button>
+          <button class="btn btn-outline-secondary px-4" (click)="cancelEdit()">Cancel</button>
+        </div>
+
+      </div>
+    </div>
+  </div>
+
+  <!-- USERS CARDS GRID (LIKE GALLERY) -->
+  <div class="row g-4 " *ngIf="users.length">
+
+    <div
+      class="col-12 col-sm-6 col-md-4 col-xl-3"
+      *ngFor="let u of users">
+
+      <div class="card h-100 shadow-sm border border-2 border-secondary">
+
+        <div class="card-body">
+          <div class="d-flex align-items-center mb-3">
+            <div
+              class="rounded-circle bg-primary text-white d-flex align-items-center justify-content-center me-3"
+              style="width:48px;height:48px;font-weight:600;">
+              {{ u.firstName[0] }}{{ u.lastName[0] }}
+            </div>
+
+            <div>
+              <div class="fw-semibold">
+                {{ u.firstName }} {{ u.lastName }}
+              </div>
+              <small class="text-muted">@{{ u.username }}</small>
+            </div>
+          </div>
+
+          <div class="text-muted small text-break">
+            {{ u.email }}
+          </div>
+        </div>
+
+        <div class="card-footer bg-white d-flex justify-content-between">
+          <button class="btn btn-sm btn-outline-primary"
+            (click)="startEdit(u)">
+            Edit
+          </button>
+
+          <button class="btn btn-sm btn-outline-danger"
+            (click)="deleteUser(u.id)">
+            Delete
+          </button>
+        </div>
+
+      </div>
+    </div>
+
+  </div>
+
+  <p *ngIf="!users.length" class="text-muted text-center mt-4">
+    No users found
+  </p>
+
+</div>
