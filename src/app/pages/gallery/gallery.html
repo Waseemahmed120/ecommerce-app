@@ -1,84 +1,72 @@
-
- <div class="container-fluid px-0">
+<div class="container-fluid px-0">
 
   <!-- HEADER -->
   <div class="d-flex justify-content-between align-items-center mb-4">
     <h4 class="fw-semibold mb-0">Gallery</h4>
   </div>
 
-  <!-- ADD PRODUCT -->
+  <!-- ADD / EDIT PRODUCT -->
   <div class="card shadow-sm mb-4">
     <div class="card-header bg-white fw-semibold">
-      Add Product
+      {{ isEditMode ? 'Edit Product' : 'Add Product' }}
     </div>
 
     <div class="card-body">
-      <form (ngSubmit)="addProduct()">
+      <form (ngSubmit)="submitProduct()">
         <div class="row g-3">
 
           <div class="col-12 col-md-6 col-lg-3">
-            <input class="form-control" placeholder="Title"
-                   [(ngModel)]="newProduct.title" name="title" required>
+            <input class="form-control"
+                   placeholder="Title"
+                   [(ngModel)]="formProduct.title"
+                   name="title"
+                   required>
           </div>
 
           <div class="col-12 col-md-6 col-lg-3">
-            <input class="form-control" placeholder="Description"
-                   [(ngModel)]="newProduct.description" name="description" required>
+            <input class="form-control"
+                   placeholder="Description"
+                   [(ngModel)]="formProduct.description"
+                   name="description"
+                   required>
           </div>
 
           <div class="col-12 col-md-6 col-lg-2">
-            <input class="form-control" type="number" placeholder="Price"
-                   [(ngModel)]="newProduct.price" name="price" required>
+            <input type="number"
+                   class="form-control"
+                   placeholder="Price"
+                   [(ngModel)]="formProduct.price"
+                   name="price"
+                   required>
           </div>
 
           <div class="col-12 col-md-6 col-lg-4">
-            <input class="form-control" placeholder="Image URL"
-                   [(ngModel)]="newProduct.images[0]" name="image">
+            <input class="form-control"
+                   placeholder="Image URL"
+                   [(ngModel)]="formProduct.images[0]"
+                   name="image">
           </div>
 
-          <div class="col-12 d-grid d-md-flex justify-content-md-end">
-            <button class="btn btn-primary px-4">
-              Add Product
+          <div class="col-12 d-flex justify-content-end gap-2">
+            <button
+              type="submit"
+              class="btn"
+              [class.btn-primary]="!isEditMode"
+              [class.btn-success]="isEditMode">
+              {{ isEditMode ? 'Save Product' : 'Add Product' }}
+            </button>
+
+            <button
+              *ngIf="isEditMode"
+              type="button"
+              class="btn btn-outline-secondary"
+              (click)="cancelEdit()">
+              Cancel
             </button>
           </div>
 
         </div>
       </form>
-    </div>
-  </div>
-
-  <!-- EDIT PRODUCT -->
-  <div *ngIf="editingProduct" class="card shadow-sm border-warning mb-4">
-    <div class="card-header fw-semibold">
-      Edit Product
-    </div>
-
-    <div class="card-body">
-      <div class="row g-3">
-
-        <div class="col-12 col-md-6 col-lg-3">
-          <input class="form-control" [(ngModel)]="editingProduct.title" name="editTitle">
-        </div>
-
-        <div class="col-12 col-md-6 col-lg-3">
-          <input class="form-control" [(ngModel)]="editingProduct.description" name="editDescription">
-        </div>
-
-        <div class="col-12 col-md-6 col-lg-2">
-          <input type="number" class="form-control"
-                 [(ngModel)]="editingProduct.price" name="editPrice">
-        </div>
-
-        <div class="col-12 col-md-6 col-lg-4">
-          <input class="form-control" [(ngModel)]="editingProduct.images[0]" name="editImage">
-        </div>
-
-        <div class="col-12 d-flex flex-column flex-sm-row justify-content-end gap-2">
-          <button class="btn btn-success px-4" (click)="saveProduct()">Save</button>
-          <button class="btn btn-outline-secondary px-4" (click)="cancelEdit()">Cancel</button>
-        </div>
-
-      </div>
     </div>
   </div>
 
@@ -102,10 +90,16 @@
             <span class="fw-bold">${{ p.price }}</span>
 
             <div>
-              <button class="btn btn-sm btn-outline-primary me-1"
-                      (click)="startEdit(p)">Edit</button>
-              <button class="btn btn-sm btn-outline-danger"
-                      (click)="deleteProduct(p)">Delete</button>
+              <button
+                class="btn btn-sm btn-outline-primary me-1"
+                (click)="startEdit(p)">
+                Edit
+              </button>
+              <button
+                class="btn btn-sm btn-outline-danger"
+                (click)="deleteProduct(p)">
+                Delete
+              </button>
             </div>
           </div>
         </div>

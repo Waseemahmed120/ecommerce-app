@@ -6,15 +6,23 @@ import { ApiService } from '../../services/api.service';
 
 @Component({
   standalone: true,
-  imports: [CommonModule, FormsModule],
-  templateUrl: './users.html',
+ imports: [CommonModule, FormsModule],
+ templateUrl: './users.html',
 })
+
 export class Users implements OnInit {
 
   users: any[] = [];
-  newUser = { firstName: '', lastName: '', email: '', username: '' };
-  editingUser: any = null;
 
+  formUser = {
+    id: null,
+    firstName: '',
+    lastName: '',
+    email: '',
+    username: ''
+  };
+
+  isEditMode = false;
   private nextLocalUserId = 100000;
 
   constructor(
@@ -33,17 +41,20 @@ export class Users implements OnInit {
     });
   }
 
-  addUser(): void {
-    if (
-      !this.newUser.firstName ||
-      !this.newUser.lastName ||
-      !this.newUser.email ||
-      !this.newUser.username
-    ) {
-      return;
-    }
+  /* ---------- ADD OR SAVE ---------- */
+  submitUser(): void {
+    if (!this.formUser.firstName || !this.formUser.lastName) return;
 
-    this.api.addUser(this.newUser).subscribe({
+    if (this.isEditMode) {
+      this.saveUser();
+    } else {
+      this.addUser();
+    }
+  }
+
+  /* ---------- ADD ---------- */
+  addUser(): void {
+    this.api.addUser(this.formUser).subscribe({
       next: (createdUser: any) => {
         const user = {
           ...createdUser,
@@ -51,60 +62,65 @@ export class Users implements OnInit {
         };
 
         this.users = [...this.users, user];
-        this.newUser = { firstName: '', lastName: '', email: '', username: '' };
-        this.cdr.detectChanges();
+        this.resetForm();
       },
       error: () => {
         const fallbackUser = {
-          ...this.newUser,
+          ...this.formUser,
           id: Number(this.nextLocalUserId++)
         };
 
         this.users = [...this.users, fallbackUser];
-        this.newUser = { firstName: '', lastName: '', email: '', username: '' };
-        this.cdr.detectChanges();
+        this.resetForm();
       }
     });
   }
 
+  /* ---------- EDIT ---------- */
   startEdit(user: any): void {
-  this.editingUser = user; 
-}
+    this.formUser = { ...user };
+    this.isEditMode = true;
+  }
 
   saveUser(): void {
-    if (!this.editingUser) return;
+    const id = Number(this.formUser.id);
 
-    const id = Number(this.editingUser.id);
-
-    // API user
     if (id < 100000) {
-      this.api.updateUser(id, this.editingUser).subscribe(updatedUser => {
+      this.api.updateUser(id, this.formUser).subscribe(updatedUser => {
         this.users = this.users.map(u =>
           Number(u.id) === id ? updatedUser : u
         );
-        this.editingUser = null;
-        this.cdr.detectChanges();
+        this.resetForm();
       });
       return;
     }
 
     this.users = this.users.map(u =>
-      Number(u.id) === id ? { ...this.editingUser } : u
+      Number(u.id) === id ? { ...this.formUser } : u
     );
 
-    this.editingUser = null;
-    this.cdr.detectChanges();
+    this.resetForm();
   }
 
   cancelEdit(): void {
-    this.editingUser = null;
+    this.resetForm();
+  }
+
+  resetForm(): void {
+    this.formUser = {
+      id: null,
+      firstName: '',
+      lastName: '',
+      email: '',
+      username: ''
+    };
+    this.isEditMode = false;
+    this.cdr.detectChanges();
   }
 
   deleteUser(id: number): void {
     const numericId = Number(id);
-
     this.users = this.users.filter(u => Number(u.id) !== numericId);
-    this.cdr.detectChanges();
 
     if (numericId < 100000) {
       this.api.deleteUser(numericId).subscribe();

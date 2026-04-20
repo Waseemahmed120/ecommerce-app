@@ -8,13 +8,20 @@ import { ApiService } from '../../services/api.service';
   standalone: true,
   imports: [CommonModule, FormsModule],
   templateUrl: './gallery.html',
-  styleUrls: ['./gallery.css'],
 })
 export class Gallery implements OnInit {
 
   products: any[] = [];
-  newProduct = { title: '', description: '', price: 0, images: [''] };
-  editingProduct: any = null;
+
+  formProduct = {
+    id: null,
+    title: '',
+    description: '',
+    price: 0,
+    images: ['']
+  };
+
+  isEditMode = false;
   private nextLocalProductId = 100000;
 
   constructor(
@@ -27,112 +34,94 @@ export class Gallery implements OnInit {
   }
 
   loadProducts(): void {
-    this.api.getProducts().subscribe({
-      next: (res: any[]) => {
-        this.products = [...res.slice(0, 20)]; 
-        this.cdr.detectChanges();
-      },
-      error: () => console.error('Failed to load products')
+    this.api.getProducts().subscribe(res => {
+      this.products = [...res.slice(0, 20)];
+      this.cdr.detectChanges();
     });
   }
 
-  addProduct(): void {
-    if (!this.newProduct.title || !this.newProduct.description || !this.newProduct.price) {
+  /* ---------- ADD OR SAVE ---------- */
+  submitProduct(): void {
+    if (!this.formProduct.title || !this.formProduct.description || !this.formProduct.price) {
       return;
     }
 
-    this.api.addProduct(this.newProduct).subscribe({
-      next: (createdProduct: any) => {
-        const product = {
-          ...createdProduct,
-          id: createdProduct?.id ?? this.nextLocalProductId++,
-          images: this.newProduct.images,
-        };
+    if (this.isEditMode) {
+      this.saveProduct();
+    } else {
+      this.addProduct();
+    }
+  }
 
-        this.products = [...this.products, product]; 
-        this.resetNewProduct();
-        this.cdr.detectChanges();
+  /* ---------- ADD ---------- */
+  addProduct(): void {
+    this.api.addProduct(this.formProduct).subscribe({
+      next: (created: any) => {
+        const product = {
+          ...created,
+          id: created?.id ?? this.nextLocalProductId++,
+          images: this.formProduct.images
+        };
+        this.products = [...this.products, product];
+        this.resetForm();
       },
       error: () => {
-        const fallbackProduct = {
-          ...this.newProduct,
-          id: this.nextLocalProductId++,
-          images: this.newProduct.images,
+        const fallback = {
+          ...this.formProduct,
+          id: this.nextLocalProductId++
         };
-
-        this.products = [...this.products, fallbackProduct];
-        this.resetNewProduct();
-        this.cdr.detectChanges();
-      },
+        this.products = [...this.products, fallback];
+        this.resetForm();
+      }
     });
   }
 
+  /* ---------- EDIT ---------- */
   startEdit(product: any): void {
-    this.editingProduct = { ...product };
+    this.formProduct = { ...product };
+    this.isEditMode = true;
   }
 
   saveProduct(): void {
-    if (!this.editingProduct) return;
+    const id = Number(this.formProduct.id);
 
-    if (this.editingProduct.id < 100000) {
-      this.api.updateProduct(this.editingProduct.id, this.editingProduct).subscribe({
-        next: (updatedProduct: any) => {
-          this.products = this.products.map(p =>
-            p.id === updatedProduct.id ? updatedProduct : p
-          );
-          this.editingProduct = null;
-          this.cdr.detectChanges();
-        },
-        error: () => {
-          this.products = this.products.map(p =>
-            p.id === this.editingProduct.id ? { ...this.editingProduct } : p
-          );
-          this.editingProduct = null;
-          this.cdr.detectChanges();
-        },
+    if (id < 100000) {
+      this.api.updateProduct(id, this.formProduct).subscribe(updated => {
+        this.products = this.products.map(p =>
+          p.id === id ? updated : p
+        );
+        this.resetForm();
       });
       return;
     }
 
     this.products = this.products.map(p =>
-      p.id === this.editingProduct.id ? { ...this.editingProduct } : p
+      p.id === id ? { ...this.formProduct } : p
     );
-
-    this.editingProduct = null;
-    this.cdr.detectChanges();
+    this.resetForm();
   }
 
   cancelEdit(): void {
-    this.editingProduct = null;
+    this.resetForm();
   }
 
   deleteProduct(product: any): void {
     this.products = this.products.filter(p => p.id !== product.id);
-    this.cdr.detectChanges();
 
     if (product.id < 100000) {
       this.api.deleteProduct(product.id).subscribe();
     }
   }
 
-  onImageLoad(): void {
-    this.cdr.detectChanges(); 
-  }
-
-  private resetNewProduct(): void {
-    this.newProduct = { title: '', description: '', price: 0, images: [''] };
-  }
-
-  trackById(index: number, product: any) {
-    return product.id;
+  resetForm(): void {
+    this.formProduct = {
+      id: null,
+      title: '',
+      description: '',
+      price: 0,
+      images: ['']
+    };
+    this.isEditMode = false;
+    this.cdr.detectChanges();
   }
 }
-
-
-
-
-
-
-
-
-

@@ -1,21 +1,19 @@
 
-<div class="d-flex min-vh-100 overflow-hidden">
+<div class="d-flex">
 
-  <!-- Sidebar -->
   <aside
-    class="sidebar bg-dark text-white p-3 d-flex flex-column"
+    class="sidebar bg-dark text-white d-flex flex-column p-3 position-fixed top-0 start-0 vh-100"
     [class.open]="isSidebarOpen"
   >
-    <h3 class="mb-4 border-bottom border-secondary pb-2">
+    <h4 class="mb-4 border-bottom border-secondary pb-2">
       Dashboard
-    </h3>
+    </h4>
 
     <nav class="nav nav-pills flex-column gap-2">
       <a
         class="nav-link text-white"
         routerLink="users"
         routerLinkActive="active"
-        [routerLinkActiveOptions]="{ exact: true }"
         (click)="closeSidebar()"
       >
         👤 Users
@@ -39,10 +37,8 @@
     </button>
   </aside>
 
-  <!-- Main Content Area -->
-  <div class="flex-grow-1">
+  <div class="flex-grow-1 ms-sidebar">
 
-    <!-- Top Navbar (Mobile Only) -->
     <nav class="navbar navbar-dark bg-dark d-md-none">
       <div class="container-fluid">
         <button
@@ -56,9 +52,9 @@
       </div>
     </nav>
 
-    <main class="content p-3" (click)="closeSidebar()">
+    <main class="content p-3">
       <router-outlet></router-outlet>
     </main>
-  </div>
 
+  </div>
 </div>

@@ -1,28 +1,60 @@
+
 <div class="login-container">
-  <h2>Login</h2>
+  <h2 class="mb-4 text-center">Login</h2>
 
   <form [formGroup]="loginForm" (ngSubmit)="login()">
-    
-    <input
-      type="text"
-      placeholder="Username"
-      formControlName="username"
-    />
 
-    <input
-      type="password"
-      placeholder="Password"
-      formControlName="password"
-    />
+    <!-- USERNAME -->
+    <div class="mb-3">
+      <input
+        type="text"
+        class="form-control"
+        placeholder="Username"
+        formControlName="username"
+        autocomplete="off"
+      />
+    </div>
 
-    <button type="submit" [disabled]="loginForm.invalid">
+    <!-- PASSWORD WITH EYE ICON -->
+    <div class="mb-3 position-relative">
+      <input
+        class="form-control pe-5"
+        [type]="showPassword ? 'text' : 'password'"
+        placeholder="Password"
+        formControlName="password"
+        autocomplete="new-password"
+      />
+
+      <!-- EYE ICON -->
+      <i
+        class="bi"
+        [ngClass]="showPassword ? 'bi-eye-slash' : 'bi-eye'"
+        (click)="togglePassword()"
+        style="
+          position: absolute;
+          top: 50%;
+          right: 15px;
+          transform: translateY(-50%);
+          cursor: pointer;
+          font-size: 1.2rem;
+          color: #6c757d;
+        "
+      ></i>
+    </div>
+
+    <!-- LOGIN BUTTON -->
+    <button
+      type="submit"
+      class="btn btn-primary w-100"
+      [disabled]="loginForm.invalid"
+    >
       Login
     </button>
   </form>
 
   @if (errorMessage) {
-  <p class="error">
-    {{ errorMessage }}
-  </p>
-}
+    <p class="text-danger mt-3 text-center">
+      {{ errorMessage }}
+    </p>
+  }
 </div>
