@@ -1,53 +1,105 @@
 ﻿
 <div class="container-fluid px-0">
 
-  <div class="card shadow-sm mb-4">
+  <div class="card shadow-sm mb-4" #userFormCard>
     <div class="card-header bg-white fw-semibold">
       {{ isEditMode ? 'Edit User' : 'Add User' }}
     </div>
 
     <div class="card-body">
-      <form (ngSubmit)="submitUser()">
+      <form (ngSubmit)="submitUser()" #userForm="ngForm">
+        
+        <div *ngIf="formSubmitSuccess" class="alert alert-success alert-dismissible fade show mb-3" role="alert">
+          <i class="bi bi-check-circle me-2"></i>
+          {{ formSubmitSuccess }}
+          <button type="button" class="btn-close" (click)="formSubmitSuccess = ''" aria-label="Close"></button>
+        </div>
+        
+        <div *ngIf="formSubmitError" class="alert alert-danger alert-dismissible fade show mb-3" role="alert">
+          <i class="bi bi-exclamation-triangle me-2"></i>
+          {{ formSubmitError }}
+          <button type="button" class="btn-close" (click)="formSubmitError = ''" aria-label="Close"></button>
+        </div>
+        
         <div class="row g-3">
 
           <div class="col-12 col-md-6 col-lg-3">
-            <input class="form-control"
-              placeholder="First Name"
+            <label class="form-label small text-muted">First Name <span class="text-danger">*</span></label>
+            <input 
+              class="form-control"
+              [class.is-invalid]="formErrors.firstName && isFormSubmitted"
+              [class.is-valid]="!formErrors.firstName && formUser.firstName && isFormSubmitted"
+              placeholder="Enter first name"
               [(ngModel)]="formUser.firstName"
               name="firstName"
+              (input)="validateField('firstName')"
+              (blur)="validateField('firstName')"
               required />
+            <div *ngIf="formErrors.firstName && isFormSubmitted" class="invalid-feedback">
+              {{ formErrors.firstName }}
+            </div>
           </div>
 
           <div class="col-12 col-md-6 col-lg-3">
-            <input class="form-control"
-              placeholder="Last Name"
+            <label class="form-label small text-muted">Last Name <span class="text-danger">*</span></label>
+            <input 
+              class="form-control"
+              [class.is-invalid]="formErrors.lastName && isFormSubmitted"
+              [class.is-valid]="!formErrors.lastName && formUser.lastName && isFormSubmitted"
+              placeholder="Enter last name"
               [(ngModel)]="formUser.lastName"
               name="lastName"
+              (input)="validateField('lastName')"
+              (blur)="validateField('lastName')"
               required />
+            <div *ngIf="formErrors.lastName && isFormSubmitted" class="invalid-feedback">
+              {{ formErrors.lastName }}
+            </div>
           </div>
 
           <div class="col-12 col-md-6 col-lg-3">
-            <input class="form-control"
-              placeholder="Email"
+            <label class="form-label small text-muted">Email</label>
+            <input 
+              class="form-control"
+              [class.is-invalid]="formErrors.email && isFormSubmitted"
+              [class.is-valid]="!formErrors.email && formUser.email && isFormSubmitted"
+              placeholder="Enter email (optional)"
               [(ngModel)]="formUser.email"
-              name="email" />
+              name="email"
+              type="email"
+              (input)="validateField('email')"
+              (blur)="validateField('email')" />
+            <div *ngIf="formErrors.email && isFormSubmitted" class="invalid-feedback">
+              {{ formErrors.email }}
+            </div>
           </div>
 
           <div class="col-12 col-md-6 col-lg-3">
-            <input class="form-control"
-              placeholder="Username"
+            <label class="form-label small text-muted">Username</label>
+            <input 
+              class="form-control"
+              [class.is-invalid]="formErrors.username && isFormSubmitted"
+              [class.is-valid]="!formErrors.username && formUser.username && isFormSubmitted"
+              placeholder="Enter username (optional)"
               [(ngModel)]="formUser.username"
-              name="username" />
+              name="username"
+              (input)="validateField('username')"
+              (blur)="validateField('username')" />
+            <div *ngIf="formErrors.username && isFormSubmitted" class="invalid-feedback">
+              {{ formErrors.username }}
+            </div>
           </div>
 
-          <div class="col-12 d-flex justify-content-end gap-2">
+          <div class="col-12 d-flex justify-content-end gap-2 mt-2">
 
             <button
               type="submit"
               class="btn"
               [class.btn-primary]="!isEditMode"
               [class.btn-success]="isEditMode"
+              [disabled]="hasFormErrors() && isFormSubmitted"
             >
+              <i class="bi" [class.bi-plus-circle]="!isEditMode" [class.bi-check-circle]="isEditMode"></i>
               {{ isEditMode ? 'Save User' : 'Add User' }}
             </button>
 
@@ -57,9 +109,14 @@
               class="btn btn-outline-secondary"
               (click)="cancelEdit()"
             >
+              <i class="bi bi-x-circle"></i>
               Cancel
             </button>
 
+          </div>
+          
+          <div class="col-12">
+            <small class="text-muted"><span class="text-danger">*</span> Required fields</small>
           </div>
 
         </div>
@@ -67,7 +124,6 @@
     </div>
   </div>
 
-  <!-- USERS CARDS (same as before) -->
   <div class="row g-4" *ngIf="users.length">
 
     <div class="col-12 col-sm-6 col-md-4 col-xl-3"
@@ -87,23 +143,26 @@
               <div class="fw-semibold">
                 {{ u.firstName }} {{ u.lastName }}
               </div>
-              <small class="text-muted">@{{ u.username }}</small>
+              <small class="text-muted">@{{ u.username || 'no-username' }}</small>
             </div>
           </div>
 
           <div class="text-muted small text-break">
-            {{ u.email }}
+            <i class="bi bi-envelope me-2"></i>
+            {{ u.email || 'No email provided' }}
           </div>
         </div>
 
         <div class="card-footer bg-white d-flex justify-content-between">
           <button class="btn btn-sm btn-outline-primary"
             (click)="startEdit(u)">
+            <i class="bi bi-pencil"></i>
             Edit
           </button>
 
           <button class="btn btn-sm btn-outline-danger"
-            (click)="deleteUser(u.id)">
+            (click)="openDeleteDialog(u)">
+            <i class="bi bi-trash"></i>
             Delete
           </button>
         </div>
@@ -111,6 +170,67 @@
       </div>
     </div>
 
+  </div>
+  
+  <div class="text-center py-5" *ngIf="!users.length">
+    <i class="bi bi-people display-1 text-muted"></i>
+    <h5 class="text-muted mt-3">No users found</h5>
+    <p class="text-muted">Add a new user using the form above</p>
+  </div>
+
+  <div class="modal fade show d-block" 
+       *ngIf="showDeleteDialog" 
+       tabindex="-1" 
+       style="background-color: rgba(0,0,0,0.5);"
+       (click)="closeDeleteDialog()">
+    <div class="modal-dialog modal-dialog-centered" (click)="$event.stopPropagation()">
+      <div class="modal-content shadow">
+        <div class="modal-header border-0">
+          <h5 class="modal-title fw-semibold">
+            <i class="bi bi-exclamation-triangle text-warning me-2"></i>
+            Confirm Delete
+          </h5>
+          <button type="button" 
+                  class="btn-close" 
+                  (click)="closeDeleteDialog()" 
+                  aria-label="Close"></button>
+        </div>
+        
+        <div class="modal-body py-4">
+          <p class="mb-2">Are you sure you want to delete this user?</p>
+          <div class="bg-light p-3 rounded mt-3" *ngIf="userToDelete">
+            <div class="d-flex align-items-center">
+              <div class="rounded-circle bg-secondary text-white d-flex align-items-center justify-content-center me-3"
+                   style="width:40px;height:40px;font-weight:600;">
+                {{ userToDelete.firstName[0] }}{{ userToDelete.lastName[0] }}
+              </div>
+              <div>
+                <div class="fw-semibold">{{ userToDelete.firstName }} {{ userToDelete.lastName }}</div>
+                <small class="text-muted">{{ userToDelete.email || 'No email' }}</small>
+              </div>
+            </div>
+          </div>
+          <p class="text-danger small mt-3 mb-0">
+            <i class="bi bi-info-circle me-1"></i>
+            This action cannot be undone.
+          </p>
+        </div>
+        
+        <div class="modal-footer border-0">
+          <button type="button" 
+                  class="btn btn-outline-secondary" 
+                  (click)="closeDeleteDialog()">
+            Cancel
+          </button>
+          <button type="button" 
+                  class="btn btn-danger" 
+                  (click)="confirmDelete()">
+            <i class="bi bi-trash me-1"></i>
+            Delete User
+          </button>
+        </div>
+      </div>
+    </div>
   </div>
 
 </div>
