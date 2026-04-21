@@ -1,0 +1,245 @@
+<!-- <div class="container-fluid px-0" *ngIf="!loading && product">
+  
+  
+  <nav aria-label="breadcrumb" class="mb-4">
+    <ol class="breadcrumb">
+      <li class="breadcrumb-item"><a routerLink="/dashboard/posts">Products</a></li>
+      <li class="breadcrumb-item active">{{ product.title }}</li>
+    </ol>
+  </nav>
+
+  <div class="row">
+    
+    <div class="col-md-6 mb-4">
+      <img [src]="product.images?.[0] || 'https://via.placeholder.com/600x400?text=No+Image'"
+           class="img-fluid rounded shadow-sm"
+           style="width: 100%; max-height: 500px; object-fit: cover;"
+           alt="{{ product.title }}">
+    </div>
+
+    
+    <div class="col-md-6">
+      <h2 class="fw-bold mb-3">{{ product.title }}</h2>
+      
+      
+      <div class="d-flex align-items-center gap-2 mb-3">
+        <div class="d-flex gap-1">
+          <ng-container *ngFor="let star of getStars(5)">
+            <i class="bi"
+               [class.bi-star-fill]="star <= product.rating"
+               [class.bi-star]="star > product.rating"
+               [class.text-warning]="star <= product.rating"
+               style="font-size: 1.2rem;">
+            </i>
+          </ng-container>
+        </div>
+        <span class="text-muted">({{ product.rating || 0 }}/5)</span>
+      </div>
+
+      
+      <div class="mb-4">
+        <span class="display-6 fw-bold text-primary">${{ product.price | number:'1.2-2' }}</span>
+      </div>
+
+      
+      <p class="lead mb-4">{{ product.description }}</p>
+
+      
+      <div class="d-flex align-items-center gap-3 mb-4">
+        <label class="fw-semibold">Quantity:</label>
+        <div class="input-group" style="width: 150px;">
+          <button class="btn btn-outline-secondary" type="button" (click)="decreaseQuantity()">-</button>
+          <input type="text" class="form-control text-center" [value]="quantity" readonly>
+          <button class="btn btn-outline-secondary" type="button" (click)="increaseQuantity()">+</button>
+        </div>
+      </div>
+
+      
+      <div class="d-flex gap-3">
+        <button class="btn btn-outline-primary btn-lg" (click)="addToCart()">
+          <i class="bi bi-cart-plus"></i> Add to Cart
+        </button>
+        <button class="btn btn-primary btn-lg" (click)="buyNow()">
+          <i class="bi bi-lightning"></i> Buy Now
+        </button>
+      </div>
+
+      
+      <div class="mt-4 pt-4 border-top">
+        <div class="row">
+          <div class="col-6">
+            <small class="text-muted">Category</small>
+            <p class="fw-semibold">{{ product.category || 'General' }}</p>
+          </div>
+          <div class="col-6">
+            <small class="text-muted">Brand</small>
+            <p class="fw-semibold">{{ product.brand || 'Generic' }}</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  
+  <div class="mt-5">
+    <h4 class="fw-semibold mb-4">✨ Suggested Products</h4>
+    <div class="row g-3">
+      <div class="col-6 col-md-3" *ngFor="let sp of suggestedProducts">
+        <div class="card h-100 shadow-sm" style="cursor: pointer;" (click)="viewSuggestedProduct(sp.id)">
+          <img [src]="sp.images?.[0] || 'https://via.placeholder.com/150?text=No+Image'"
+               class="card-img-top"
+               style="height: 120px; object-fit: cover;"
+               alt="{{ sp.title }}">
+          <div class="card-body p-2">
+            <h6 class="card-title small fw-semibold">{{ sp.title }}</h6>
+            <p class="card-text text-primary fw-bold small">${{ sp.price }}</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+</div> -->
+
+
+
+
+
+
+
+
+
+
+<div class="container-fluid px-0">
+  
+  <!-- Loading State -->
+  <div *ngIf="loading" class="text-center py-5">
+    <div class="spinner-border text-primary" role="status">
+      <span class="visually-hidden">Loading...</span>
+    </div>
+  </div>
+
+  <!-- Product Details -->
+  <div *ngIf="!loading && product">
+    
+    <!-- Breadcrumb -->
+    <nav aria-label="breadcrumb" class="mb-4">
+      <ol class="breadcrumb">
+        <li class="breadcrumb-item"><a routerLink="/dashboard/posts">Products</a></li>
+        <li class="breadcrumb-item active">{{ product.title }}</li>
+      </ol>
+    </nav>
+
+    <div class="row">
+      <!-- Product Image -->
+      <div class="col-md-6 mb-4">
+        <img [src]="product.images[0]" 
+             class="img-fluid rounded shadow-sm"
+             style="width: 100%; max-height: 500px; object-fit: cover;"
+             alt="{{ product.title }}">
+      </div>
+
+      <!-- Product Details -->
+      <div class="col-md-6">
+        <h2 class="fw-bold mb-3">{{ product.title }}</h2>
+        
+        <!-- Rating - FIXED -->
+        <div class="d-flex align-items-center gap-2 mb-3">
+          <div class="d-flex gap-1">
+            <ng-container *ngFor="let star of getStars(5)">
+              <i class="bi"
+                 [class.bi-star-fill]="star <= product.rating"
+                 [class.bi-star]="star > product.rating"
+                 [class.text-warning]="star <= product.rating"
+                 style="font-size: 1.5rem; cursor: pointer;"
+                 (click)="setRating(star)"
+                 [title]="'Rate ' + star + ' stars'">
+              </i>
+            </ng-container>
+          </div>
+          <span class="text-muted">({{ product.rating || 0 }}/5)</span>
+        </div>
+
+        <!-- Price -->
+        <div class="mb-4">
+          <span class="display-6 fw-bold text-primary">${{ product.price | number:'1.2-2' }}</span>
+          <span class="badge bg-success ms-2" *ngIf="product.discountPercentage">
+            -{{ product.discountPercentage }}% OFF
+          </span>
+        </div>
+
+        <!-- Description -->
+        <p class="lead mb-4">{{ product.description }}</p>
+
+        <!-- Quantity Selector -->
+        <div class="d-flex align-items-center gap-3 mb-4">
+          <label class="fw-semibold">Quantity:</label>
+          <div class="input-group" style="width: 150px;">
+            <button class="btn btn-outline-secondary" type="button" (click)="decreaseQuantity()">-</button>
+            <input type="text" class="form-control text-center" [value]="quantity" readonly>
+            <button class="btn btn-outline-secondary" type="button" (click)="increaseQuantity()">+</button>
+          </div>
+        </div>
+
+        <!-- Action Buttons -->
+        <div class="d-flex gap-3">
+          <button class="btn btn-outline-primary btn-lg" (click)="addToCart()">
+            <i class="bi bi-cart-plus"></i> Add to Cart
+          </button>
+          <button class="btn btn-primary btn-lg" (click)="buyNow()">
+            <i class="bi bi-lightning"></i> Buy Now
+          </button>
+        </div>
+
+        <!-- Category/Brand Info -->
+        <div class="mt-4 pt-4 border-top">
+          <div class="row">
+            <div class="col-6">
+              <small class="text-muted">Category</small>
+              <p class="fw-semibold">{{ product.category || 'General' }}</p>
+            </div>
+            <div class="col-6">
+              <small class="text-muted">Brand</small>
+              <p class="fw-semibold">{{ product.brand || 'Generic' }}</p>
+            </div>
+            <div class="col-6 mt-2">
+              <small class="text-muted">Stock</small>
+              <p class="fw-semibold" [class.text-success]="product.stock > 10" [class.text-warning]="product.stock <= 10">
+                {{ product.stock || 'Available' }}
+              </p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Suggested Products -->
+    <div class="mt-5" *ngIf="suggestedProducts.length">
+      <h4 class="fw-semibold mb-4">✨ Suggested Products</h4>
+      <div class="row g-3">
+        <div class="col-6 col-md-3" *ngFor="let sp of suggestedProducts">
+          <div class="card h-100 shadow-sm" style="cursor: pointer;" (click)="viewSuggestedProduct(sp.id)">
+            <img [src]="sp.images[0]" 
+                 class="card-img-top"
+                 style="height: 120px; object-fit: cover;"
+                 alt="{{ sp.title }}">
+            <div class="card-body p-2">
+              <h6 class="card-title small fw-semibold">{{ sp.title }}</h6>
+              
+              <!-- Suggested Product Rating -->
+              <div class="d-flex gap-1 mb-1">
+                <ng-container *ngFor="let star of getStars(5)">
+                  <i class="bi bi-star-fill text-warning" *ngIf="star <= sp.rating" style="font-size: 0.7rem;"></i>
+                  <i class="bi bi-star text-muted" *ngIf="star > sp.rating" style="font-size: 0.7rem;"></i>
+                </ng-container>
+              </div>
+              
+              <p class="card-text text-primary fw-bold small">${{ sp.price }}</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+  </div>
+</div>

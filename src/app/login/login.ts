@@ -22,7 +22,6 @@ export class Login {
   loginForm!: FormGroup;
   errorMessage = '';
 
-  // 👁 Password visibility control
   showPassword = false;
 
   constructor(
@@ -36,7 +35,6 @@ export class Login {
     });
   }
 
-  // 👁 Toggle password show / hide
   togglePassword(): void {
     this.showPassword = !this.showPassword;
   }

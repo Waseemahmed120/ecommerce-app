@@ -1,12 +1,10 @@
-
+<!-- 
 <div class="container-fluid px-0">
 
-  <!-- HEADER -->
   <div class="d-flex justify-content-between align-items-center mb-4">
     <h4 class="fw-semibold mb-0">Gallery</h4>
   </div>
 
-  <!-- ADD / EDIT PRODUCT -->
   <div class="card shadow-sm mb-4" #productFormCard>
     <div class="card-header bg-white fw-semibold">
       {{ isEditMode ? 'Edit Product' : 'Add Product' }}
@@ -15,7 +13,6 @@
     <div class="card-body">
       <form (ngSubmit)="submitProduct()" #productForm="ngForm">
         
-        <!-- Success/Error Messages -->
         <div *ngIf="formSubmitSuccess" class="alert alert-success alert-dismissible fade show mb-3" role="alert">
           <i class="bi bi-check-circle me-2"></i>
           {{ formSubmitSuccess }}
@@ -30,7 +27,6 @@
         
         <div class="row g-3">
 
-          <!-- Title Field -->
           <div class="col-12 col-md-6 col-lg-3">
             <label class="form-label small text-muted">Title <span class="text-danger">*</span></label>
             <input 
@@ -48,7 +44,6 @@
             </div>
           </div>
 
-          <!-- Description Field -->
           <div class="col-12 col-md-6 col-lg-3">
             <label class="form-label small text-muted">Description <span class="text-danger">*</span></label>
             <input 
@@ -66,7 +61,6 @@
             </div>
           </div>
 
-          <!-- Price Field -->
           <div class="col-12 col-md-6 col-lg-2">
             <label class="form-label small text-muted">Price <span class="text-danger">*</span></label>
             <input 
@@ -87,7 +81,6 @@
             </div>
           </div>
 
-          <!-- Image URL Field -->
           <div class="col-12 col-md-6 col-lg-2">
             <label class="form-label small text-muted">Image URL</label>
             <input 
@@ -104,23 +97,8 @@
             </div>
           </div>
 
-          <!-- Rating Field -->
-          <!-- <div class="col-12 col-md-6 col-lg-2">
-            <label class="form-label small text-muted">Rating</label>
-            <select 
-              class="form-select"
-              [(ngModel)]="formProduct.rating"
-              name="rating">
-              <option [value]="0">No Rating</option>
-              <option [value]="1">⭐ 1 Star</option>
-              <option [value]="2">⭐⭐ 2 Stars</option>
-              <option [value]="3">⭐⭐⭐ 3 Stars</option>
-              <option [value]="4">⭐⭐⭐⭐ 4 Stars</option>
-              <option [value]="5">⭐⭐⭐⭐⭐ 5 Stars</option>
-            </select>
-          </div> -->
+          
 
-          <!-- Form Actions -->
           <div class="col-12 d-flex justify-content-end gap-2 mt-2">
             <button
               type="submit"
@@ -142,7 +120,6 @@
             </button>
           </div>
           
-          <!-- Required Field Note -->
           <div class="col-12">
             <small class="text-muted"><span class="text-danger">*</span> Required fields</small>
           </div>
@@ -152,13 +129,11 @@
     </div>
   </div>
 
-  <!-- PRODUCT GRID -->
   <div class="row g-4" *ngIf="products.length">
 
     <div class="col-12 col-sm-6 col-lg-3" *ngFor="let p of products">
       <div class="card shadow-sm h-100 border border-2 border-secondary">
 
-        <!-- Image with click to preview -->
         <div class="position-relative" style="cursor: pointer;" (click)="openImagePreview(p.images[0], p.title)">
           <img [src]="p.images[0] || 'https://via.placeholder.com/300x180?text=No+Image'"
                class="card-img-top"
@@ -177,7 +152,6 @@
             {{ p.description }}
           </p>
 
-          <!-- Star Rating Display -->
           <div class="mb-2">
             <div class="d-flex align-items-center gap-1">
               <ng-container *ngFor="let star of getStars(5)">
@@ -220,14 +194,12 @@
 
   </div>
 
-  <!-- Empty State -->
   <div class="text-center py-5" *ngIf="!products.length">
     <i class="bi bi-images display-1 text-muted"></i>
     <h5 class="text-muted mt-3">No products found</h5>
     <p class="text-muted">Add a new product using the form above</p>
   </div>
 
-  <!-- Delete Confirmation Modal -->
   <div class="modal fade show d-block" 
        *ngIf="showDeleteDialog" 
        tabindex="-1" 
@@ -283,7 +255,6 @@
     </div>
   </div>
 
-  <!-- Image Preview Modal -->
   <div class="modal fade show d-block" 
        *ngIf="showImagePreview" 
        tabindex="-1" 
@@ -321,4 +292,4 @@
     </div>
   </div>
 
-</div>
+</div> -->

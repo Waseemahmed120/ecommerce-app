@@ -1,0 +1,18 @@
+.header {
+  border-bottom: 1px solid #dee2e6;
+  position: sticky;
+  top: 0;
+  z-index: 1020;
+}
+
+.cart-icon {
+  transition: transform 0.2s ease;
+}
+
+.cart-icon:hover {
+  transform: scale(1.1);
+}
+
+.bi-cart3 {
+  color: #2c3e50;
+}

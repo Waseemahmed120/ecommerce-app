@@ -1,0 +1,14 @@
+<div class="main-layout">
+  <app-header></app-header>
+  
+  <div class="d-flex">
+    <app-sidebar (sidebarToggled)="onSidebarToggle($event)"></app-sidebar>
+    
+    <main 
+      class="main-content flex-grow-1 p-4"
+      [class.sidebar-open]="isSidebarOpen"
+    >
+      <router-outlet></router-outlet>
+    </main>
+  </div>
+</div>

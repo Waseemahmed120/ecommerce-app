@@ -1,5 +1,5 @@
 
-import { Component } from '@angular/core';
+import { Component, Output, EventEmitter } from '@angular/core';
 import { RouterOutlet, RouterLink, Router, RouterLinkActive } from '@angular/router';
 import { CommonModule } from '@angular/common';
 import { AuthService } from '../../auth';
@@ -13,7 +13,8 @@ import { AuthService } from '../../auth';
 })
 export class Sidebar {
 
-  isSidebarOpen = false; // ✅ hamburger state
+  @Output() sidebarToggled = new EventEmitter<boolean>();
+  isSidebarOpen = false;
 
   constructor(
     private auth: AuthService,
@@ -22,10 +23,12 @@ export class Sidebar {
 
   toggleSidebar(): void {
     this.isSidebarOpen = !this.isSidebarOpen;
+    this.sidebarToggled.emit(this.isSidebarOpen);
   }
 
   closeSidebar(): void {
     this.isSidebarOpen = false;
+    this.sidebarToggled.emit(false);
   }
 
   logout(): void {
