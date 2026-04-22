@@ -143,14 +143,14 @@ export class PostDetail implements OnInit {
     }
   }
 
-  buyNow(): void {
-    if (this.product) {
-      for (let i = 0; i < this.quantity; i++) {
-        this.cartService.addToCart(this.product);
-      }
-      this.router.navigate(['/dashboard/cart']);
-    }
-  }
+  // buyNow(): void {
+  //   if (this.product) {
+  //     for (let i = 0; i < this.quantity; i++) {
+  //       this.cartService.addToCart(this.product);
+  //     }
+  //     this.router.navigate(['/dashboard/cart']);
+  //   }
+  // }
 
   viewSuggestedProduct(productId: number): void {
     this.router.navigate(['/dashboard/product', productId]);
