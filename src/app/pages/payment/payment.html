@@ -1,7 +1,7 @@
 <div class="container-fluid px-0">
   
   <div class="row justify-content-center">
-    <div class="col-lg-6">
+    <div class="col-lg-7">
       
       <div class="card shadow-sm">
         <div class="card-header bg-white fw-semibold">
@@ -10,90 +10,205 @@
         
         <div class="card-body">
           
-          <!-- Total Amount -->
-          <div class="alert alert-info mb-4">
+          <div class="alert alert-primary mb-4">
             <div class="d-flex justify-content-between align-items-center">
               <span class="fw-semibold">Total Amount:</span>
-              <span class="fs-4 fw-bold">${{ totalAmount | number:'1.2-2' }}</span>
+              <span class="fs-3 fw-bold">₨ {{ (totalAmount * 280).toFixed(0) | number }}</span>
             </div>
+            <small class="text-muted">≈ ${{ totalAmount | number:'1.2-2' }} USD</small>
           </div>
 
-          <!-- Payment Options -->
           <div class="mb-4">
-            <label class="form-label fw-semibold">Select Payment Method</label>
+            <label class="form-label fw-semibold mb-3">Select Payment Method</label>
             
-            <!-- HBL -->
-            <div class="form-check card p-3 mb-3">
-              <input class="form-check-input" type="radio" name="paymentMethod" 
-                     id="hbl" value="hbl" [(ngModel)]="paymentMethod">
-              <label class="form-check-label d-flex align-items-center gap-3" for="hbl">
-                <span class="fw-semibold fs-5">🏦 HBL</span>
-                <span class="text-muted">Habib Bank Limited</span>
-              </label>
+            <div class="payment-option mb-3" [class.selected]="paymentMethod === 'hbl'">
+              <div class="form-check card p-3" (click)="paymentMethod = 'hbl'; onPaymentMethodChange()">
+                <input class="form-check-input" type="radio" name="paymentMethod" 
+                       id="hbl" value="hbl" [(ngModel)]="paymentMethod">
+                <label class="form-check-label d-flex align-items-center gap-3" for="hbl">
+                  <div class="bank-logo hbl-logo">
+                    <span class="fw-bold text-white">HBL</span>
+                  </div>
+                  <div>
+                    <span class="fw-semibold fs-5">HBL</span>
+                    <span class="text-muted d-block small">Habib Bank Limited</span>
+                  </div>
+                </label>
+              </div>
             </div>
 
-            <!-- EasyPaisa -->
-            <div class="form-check card p-3 mb-3">
-              <input class="form-check-input" type="radio" name="paymentMethod" 
-                     id="easypaisa" value="easypaisa" [(ngModel)]="paymentMethod">
-              <label class="form-check-label d-flex align-items-center gap-3" for="easypaisa">
-                <span class="fw-semibold fs-5">📱 EasyPaisa</span>
-                <span class="text-muted">Mobile Wallet</span>
+            <div class="account-field mb-4" *ngIf="paymentMethod === 'hbl'">
+              <label class="form-label fw-semibold">
+                <i class="bi bi-bank me-1"></i> HBL Account Number
               </label>
+              <div class="input-group">
+                <span class="input-group-text bg-white border-end-0">
+                  <i class="bi bi-credit-card text-muted"></i>
+                </span>
+                <input 
+                  type="text" 
+                  class="form-control border-start-0 ps-0" 
+                  [class.is-invalid]="accountNumberError"
+                  placeholder="Enter valid account number"
+                  [(ngModel)]="hblAccountNumber"
+                  maxlength="16"
+                  (input)="onHBLInput(); accountNumberError = ''"
+                >
+              </div>
+              <div *ngIf="accountNumberError" class="invalid-feedback d-block">
+                {{ accountNumberError }}
+              </div>
+              <small class="text-muted">
+                <i class="bi bi-shield-check me-1"></i>
+                Your HBL account will be securely processed
+              </small>
             </div>
 
-            <!-- Bank Account -->
-            <div class="form-check card p-3">
-              <input class="form-check-input" type="radio" name="paymentMethod" 
-                     id="account" value="account" [(ngModel)]="paymentMethod">
-              <label class="form-check-label d-flex align-items-center gap-3" for="account">
-                <span class="fw-semibold fs-5">🏧 Bank Account</span>
-                <span class="text-muted">Direct Transfer</span>
+            <div class="payment-option" [class.selected]="paymentMethod === 'easypaisa'">
+              <div class="form-check card p-3" (click)="paymentMethod = 'easypaisa'; onPaymentMethodChange()">
+                <input class="form-check-input" type="radio" name="paymentMethod" 
+                       id="easypaisa" value="easypaisa" [(ngModel)]="paymentMethod">
+                <label class="form-check-label d-flex align-items-center gap-3" for="easypaisa">
+                  <div class="bank-logo easypaisa-logo">
+                    <span class="fw-bold text-white">EP</span>
+                  </div>
+                  <div>
+                    <span class="fw-semibold fs-5">EasyPaisa</span>
+                    <span class="text-muted d-block small">Mobile Wallet</span>
+                  </div>
+                </label>
+              </div>
+            </div>
+
+            <div class="account-field mt-3" *ngIf="paymentMethod === 'easypaisa'">
+              <label class="form-label fw-semibold">
+                <i class="bi bi-phone me-1"></i> EasyPaisa Mobile Number
               </label>
+              <div class="input-group">
+                <span class="input-group-text bg-white border-end-0">+92</span>
+                <input 
+                  type="text" 
+                  class="form-control border-start-0" 
+                  [class.is-invalid]="accountNumberError"
+                  placeholder="3XXXXXXXXX"
+                  [(ngModel)]="easypaisaAccountNumber"
+                  maxlength="10"
+                  (input)="onEasyPaisaInput(); accountNumberError = ''"
+                >
+              </div>
+              <div *ngIf="accountNumberError" class="invalid-feedback d-block">
+                {{ accountNumberError }}
+              </div>
+              <small class="text-muted">
+                <i class="bi bi-shield-check me-1"></i>
+                You'll receive a confirmation on your EasyPaisa app
+              </small>
             </div>
           </div>
 
-          <!-- Account Number Input (shown only for bank account) -->
-          <div class="mb-4" *ngIf="paymentMethod === 'account'">
-            <label class="form-label fw-semibold">Account Number</label>
-            <input 
-              type="text" 
-              class="form-control" 
-              placeholder="Enter your account number"
-              [(ngModel)]="accountNumber"
-            >
-            <small class="text-muted">Your funds will be transferred from this account</small>
-          </div>
-
-          <!-- Payment Instructions -->
-          <div class="alert alert-light border mb-4">
-            <h6 class="fw-semibold">Payment Instructions:</h6>
-            <p class="mb-0 small">
-              <span *ngIf="paymentMethod === 'hbl'">
-                You will be redirected to HBL secure payment gateway.
-              </span>
-              <span *ngIf="paymentMethod === 'easypaisa'">
-                You will receive a prompt on your EasyPaisa app.
-              </span>
-              <span *ngIf="paymentMethod === 'account'">
-                Amount will be deducted from your provided account.
-              </span>
-            </p>
-          </div>
-
-          <!-- Action Buttons -->
-          <div class="d-flex gap-2">
-            <button class="btn btn-outline-secondary" (click)="cancelPayment()">
-              <i class="bi bi-arrow-left"></i> Back to Cart
-            </button>
-            <button class="btn btn-success flex-grow-1" (click)="submitPayment()">
-              <i class="bi bi-check-circle"></i> Pay ${{ totalAmount | number:'1.2-2' }}
-            </button>
+          <div class="summary-card mt-4 p-3 bg-light rounded">
+            <h6 class="fw-semibold mb-3">Payment Summary</h6>
+            
+            <div class="d-flex justify-content-between mb-2">
+              <span class="text-muted">Subtotal:</span>
+              <span>₨ {{ (totalAmount * 280).toFixed(0) | number }}</span>
+            </div>
+            <div class="d-flex justify-content-between mb-2">
+              <span class="text-muted">Shipping:</span>
+              <span class="text-success">FREE</span>
+            </div>
+            <div class="d-flex justify-content-between mb-2">
+              <span class="text-muted">Tax (0%):</span>
+              <span>₨ 0</span>
+            </div>
+            <hr>
+            <div class="d-flex justify-content-between mb-3">
+              <span class="fw-bold">Total Amount:</span>
+              <span class="fw-bold fs-5 text-primary">₨ {{ (totalAmount * 280).toFixed(0) | number }}</span>
+            </div>
+            
+            <div class="d-flex gap-2">
+              <button class="btn btn-outline-secondary flex-grow-1" (click)="cancelPayment()" [disabled]="isProcessing">
+                <i class="bi bi-arrow-left"></i> Back
+              </button>
+              <button class="btn btn-success flex-grow-1" (click)="submitPayment()" [disabled]="isProcessing">
+                <i class="bi" [class.bi-check-circle]="!isProcessing" [class.bi-hourglass-split]="isProcessing"></i>
+                {{ isProcessing ? 'Processing...' : 'Pay Now' }}
+              </button>
+            </div>
           </div>
 
         </div>
       </div>
 
+    </div>
+  </div>
+
+  <div class="modal fade show d-block" 
+       *ngIf="showSuccessDialog" 
+       tabindex="-1" 
+       style="background-color: rgba(0,0,0,0.6); backdrop-filter: blur(4px);"
+       (click)="closeSuccessDialog()">
+    <div class="modal-dialog modal-dialog-centered" (click)="$event.stopPropagation()">
+      <div class="modal-content border-0 shadow-lg success-modal">
+        
+        <div class="modal-header border-0 pb-0">
+          <div class="text-center w-100">
+            <div class="success-animation mb-3">
+              <div class="checkmark-circle">
+                <div class="background"></div>
+                <div class="checkmark draw"></div>
+              </div>
+            </div>
+            <h4 class="modal-title fw-bold text-success mb-2">
+              <i class="bi bi-check-circle-fill me-2"></i>
+              Payment Successful!
+            </h4>
+          </div>
+        </div>
+        
+        <div class="modal-body px-4 py-3">
+          <p class="text-center text-muted mb-4">
+            Thank you for your purchase! Your payment has been processed successfully.
+          </p>
+          
+          <div class="transaction-details p-3 rounded mb-3">
+            <div class="row g-3">
+              <div class="col-6">
+                <small class="text-muted d-block">Transaction ID</small>
+                <span class="fw-semibold">{{ transactionId }}</span>
+              </div>
+              <div class="col-6">
+                <small class="text-muted d-block">Date & Time</small>
+                <span class="fw-semibold">{{ paymentDate }}</span>
+              </div>
+              <div class="col-6">
+                <small class="text-muted d-block">Payment Method</small>
+                <span class="fw-semibold">{{ paymentMethod === 'hbl' ? 'HBL Bank Transfer' : 'EasyPaisa Wallet' }}</span>
+              </div>
+              <div class="col-6">
+                <small class="text-muted d-block">Total Amount</small>
+                <span class="fw-bold text-primary">₨ {{ (totalAmount * 280).toFixed(0) | number }}</span>
+              </div>
+            </div>
+          </div>
+          
+          <div class="alert alert-success bg-success bg-opacity-10 border-0">
+            <i class="bi bi-receipt me-2"></i>
+            A receipt has been sent to your registered email address.
+          </div>
+        </div>
+        
+        <div class="modal-footer border-0 pt-0 pb-4 justify-content-center">
+          <button type="button" 
+                  class="btn btn-success px-5" 
+                  (click)="closeSuccessDialog()">
+            <i class="bi bi-house-door me-2"></i>
+            Continue Shopping
+          </button>
+        </div>
+        
+      </div>
     </div>
   </div>
 

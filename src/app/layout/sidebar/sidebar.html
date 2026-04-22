@@ -1,81 +1,10 @@
-<!-- 
-<div class="d-flex">
-
-  <aside
-    class="sidebar bg-dark text-white d-flex flex-column p-3 position-fixed top-0 start-0 vh-100"
-    [class.open]="isSidebarOpen"
-  >
-    <h4 class="mb-4 border-bottom border-secondary pb-2">
-      Dashboard
-    </h4>
-
-    <nav class="nav nav-pills flex-column gap-2">
-      <a
-        class="nav-link text-white"
-        routerLink="users"
-        routerLinkActive="active"
-        (click)="closeSidebar()"
-      >
-        👤 Users
-      </a>
-
-      <a
-        class="nav-link text-white"
-        routerLink="gallery"
-        routerLinkActive="active"
-        (click)="closeSidebar()"
-      >
-        🖼️ Gallery
-      </a>
-    </nav>
-
-    <button
-      class="btn btn-outline-light mt-auto"
-      (click)="logout()"
-    >
-      Logout
-    </button>
-  </aside>
-
-  <div class="flex-grow-1 ms-sidebar">
-
-    <nav class="navbar navbar-dark bg-dark d-md-none">
-      <div class="container-fluid">
-        <button
-          class="navbar-toggler"
-          type="button"
-          (click)="toggleSidebar()"
-        >
-          <span class="navbar-toggler-icon"></span>
-        </button>
-        <span class="navbar-brand ms-2">Dashboard</span>
-      </div>
-    </nav>
-
-    <main class="content p-3">
-      <router-outlet></router-outlet>
-    </main>
-
-  </div>
-</div> -->
-
-
-
-
-
-
-
-
-
-
-
 
 <div class="d-flex">
   <aside
     class="sidebar bg-dark text-white d-flex flex-column p-3 position-fixed top-0 start-0 vh-100"
     [class.open]="isSidebarOpen"
   >
-    <h4 class="mb-4 border-bottom border-secondary pb-2">
+    <h4 class="mb-4 mt-4 border-bottom border-secondary pb-3">
       🛍️ ShopHub
     </h4>
 

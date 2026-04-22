@@ -1,12 +1,14 @@
+
 <div class="main-layout">
-  <app-header></app-header>
+  <app-header *ngIf="showHeader"></app-header>
   
-  <div class="d-flex">
+  <div class="d-flex position-relative">
     <app-sidebar (sidebarToggled)="onSidebarToggle($event)"></app-sidebar>
     
     <main 
       class="main-content flex-grow-1 p-4"
       [class.sidebar-open]="isSidebarOpen"
+      [class.no-header]="!showHeader"
     >
       <router-outlet></router-outlet>
     </main>

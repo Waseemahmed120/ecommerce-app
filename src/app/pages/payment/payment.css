@@ -1,3 +1,4 @@
+/* 
 .form-check.card {
   cursor: pointer;
   transition: all 0.2s ease;
@@ -9,10 +10,241 @@
   background-color: #f8f9fa;
 }
 
+.form-check.card.border-primary {
+  border-color: #0d6efd !important;
+  background-color: #f0f7ff;
+}
+
 .form-check-input:checked + .form-check-label {
   color: #0d6efd;
 }
 
 .form-check-input:checked ~ .form-check-label .fw-semibold {
   color: #0d6efd;
+}
+
+.btn:disabled {
+  cursor: not-allowed;
+  opacity: 0.65;
+} */
+
+
+
+
+
+
+
+
+
+
+
+
+
+/* Payment Option Cards */
+.payment-option .card {
+  cursor: pointer;
+  transition: all 0.3s ease;
+  border: 2px solid #dee2e6;
+}
+
+.payment-option .card:hover {
+  border-color: #0d6efd;
+  background-color: #f8f9fa;
+  transform: translateY(-2px);
+}
+
+.payment-option.selected .card {
+  border-color: #0d6efd !important;
+  background-color: #f0f7ff;
+  box-shadow: 0 4px 12px rgba(13, 110, 253, 0.15);
+}
+
+/* Bank Logos */
+.bank-logo {
+  width: 50px;
+  height: 50px;
+  border-radius: 12px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.2rem;
+  transition: transform 0.2s ease;
+}
+
+.hbl-logo {
+  background: linear-gradient(135deg, #006633 0%, #00994d 100%);
+  box-shadow: 0 4px 8px rgba(0, 102, 51, 0.3);
+}
+
+.easypaisa-logo {
+  background: linear-gradient(135deg, #003366 0%, #0066cc 100%);
+  box-shadow: 0 4px 8px rgba(0, 51, 102, 0.3);
+}
+
+.payment-option:hover .bank-logo {
+  transform: scale(1.05);
+}
+
+/* Account Field Animation */
+.account-field {
+  animation: slideDown 0.3s ease;
+}
+
+@keyframes slideDown {
+  from {
+    opacity: 0;
+    transform: translateY(-10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* Summary Card */
+.summary-card {
+  border: 1px solid #e0e0e0;
+  background: linear-gradient(to bottom, #ffffff, #f8f9fa);
+}
+
+/* Form Styling */
+.form-check-input:checked {
+  background-color: #0d6efd;
+  border-color: #0d6efd;
+}
+
+.form-check-input:checked + .form-check-label {
+  color: #0d6efd;
+}
+
+.input-group-text {
+  background-color: #f8f9fa;
+}
+
+.form-control:focus {
+  border-color: #0d6efd;
+  box-shadow: 0 0 0 0.2rem rgba(13, 110, 253, 0.25);
+}
+
+/* Success Modal Animation */
+.success-modal {
+  border-radius: 20px;
+  overflow: hidden;
+}
+
+.success-animation {
+  margin: 0 auto;
+}
+
+.checkmark-circle {
+  width: 80px;
+  height: 80px;
+  position: relative;
+  display: inline-block;
+  vertical-align: top;
+}
+
+.checkmark-circle .background {
+  width: 80px;
+  height: 80px;
+  border-radius: 50%;
+  background: #28a745;
+  position: absolute;
+  animation: scaleIn 0.3s ease-in-out;
+}
+
+.checkmark {
+  border-radius: 5px;
+}
+
+.checkmark.draw:after {
+  animation-duration: 0.8s;
+  animation-timing-function: ease;
+  animation-name: checkmark;
+  transform: scaleX(-1) rotate(135deg);
+}
+
+.checkmark:after {
+  opacity: 1;
+  height: 40px;
+  width: 20px;
+  transform-origin: left top;
+  border-right: 5px solid white;
+  border-top: 5px solid white;
+  content: '';
+  left: 25px;
+  top: 45px;
+  position: absolute;
+}
+
+@keyframes scaleIn {
+  0% {
+    transform: scale(0);
+    opacity: 0;
+  }
+  100% {
+    transform: scale(1);
+    opacity: 1;
+  }
+}
+
+@keyframes checkmark {
+  0% {
+    height: 0;
+    width: 0;
+    opacity: 1;
+  }
+  20% {
+    height: 0;
+    width: 20px;
+    opacity: 1;
+  }
+  40% {
+    height: 40px;
+    width: 20px;
+    opacity: 1;
+  }
+  100% {
+    height: 40px;
+    width: 20px;
+    opacity: 1;
+  }
+}
+
+/* Transaction Details */
+.transaction-details {
+  background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
+  border-left: 4px solid #28a745;
+}
+
+/* Button Styling */
+.btn-success {
+  background: linear-gradient(135deg, #28a745 0%, #20c997 100%);
+  border: none;
+  font-weight: 500;
+  transition: all 0.3s ease;
+}
+
+.btn-success:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(40, 167, 69, 0.4);
+}
+
+.btn:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+  transform: none;
+}
+
+/* Responsive */
+@media (max-width: 576px) {
+  .bank-logo {
+    width: 40px;
+    height: 40px;
+    font-size: 1rem;
+  }
+  
+  .payment-option .fs-5 {
+    font-size: 1rem !important;
+  }
 }
