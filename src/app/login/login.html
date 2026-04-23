@@ -1,60 +1,63 @@
 
-<div class="login-container">
-  <h2 class="mb-4 text-center">Login</h2>
-
-  <form [formGroup]="loginForm" (ngSubmit)="login()">
-
-    <!-- USERNAME -->
-    <div class="mb-3">
-      <input
-        type="text"
-        class="form-control"
-        placeholder="Username"
-        formControlName="username"
-        autocomplete="off"
-      />
+<div class="ring-wrapper">
+  <div class="ring">
+    <i style="--clr:#00ff0a;"></i>
+    <i style="--clr:#ff0057;"></i>
+    <i style="--clr:#fffd44;"></i>
+    
+    <div class="login">
+      <h2>Login</h2>
+      
+      <form [formGroup]="loginForm" (ngSubmit)="login()">
+        
+        <div class="inputBx">
+          <input 
+            type="text" 
+            placeholder="Username"
+            formControlName="username"
+            autocomplete="off"
+            [class.error]="usernameControl?.invalid && usernameControl?.touched"
+          />
+          <div class="error-message" *ngIf="usernameControl?.invalid && usernameControl?.touched">
+            Username is required
+          </div>
+        </div>
+        
+        <div class="inputBx password-wrapper">
+          <input 
+            [type]="showPassword ? 'text' : 'password'"
+            placeholder="Password"
+            formControlName="password"
+            autocomplete="current-password"
+            [class.error]="passwordControl?.invalid && passwordControl?.touched"
+          />
+          <button 
+            type="button" 
+            class="password-toggle" 
+            (click)="togglePassword()"
+            tabindex="-1"
+          >
+            <i class="bi" [class.bi-eye-slash]="showPassword" [class.bi-eye]="!showPassword"></i>
+          </button>
+          <div class="error-message" *ngIf="passwordControl?.invalid && passwordControl?.touched">
+            Password is required
+          </div>
+        </div>
+        
+        <div class="alert-error" *ngIf="errorMessage">
+          {{ errorMessage }}
+        </div>
+        
+        <div class="inputBx">
+          <input 
+            type="submit" 
+            value="Sign in"
+            [disabled]="loginForm.invalid"
+            [class.disabled]="loginForm.invalid"
+          />
+        </div>
+        
+      </form>
     </div>
-
-    <!-- PASSWORD WITH EYE ICON -->
-    <div class="mb-3 position-relative">
-      <input
-        class="form-control pe-5"
-        [type]="showPassword ? 'text' : 'password'"
-        placeholder="Password"
-        formControlName="password"
-        autocomplete="new-password"
-      />
-
-      <!-- EYE ICON -->
-      <i
-        class="bi"
-        [ngClass]="showPassword ? 'bi bi-eye-salash' : 'bi bi-eye'"
-        (click)="togglePassword()"
-        style="
-          position: absolute;
-          top: 50%;
-          right: 15px;
-          transform: translateY(-50%);
-          cursor: pointer;
-          font-size: 1.2rem;
-          color: #6c757d;
-        "
-      ></i>
-    </div>
-
-    <!-- LOGIN BUTTON -->
-    <button
-      type="submit"
-      class="btn btn-primary w-100"
-      [disabled]="loginForm.invalid"
-    >
-      Login
-    </button>
-  </form>
-
-  @if (errorMessage) {
-    <p class="text-danger mt-3 text-center">
-      {{ errorMessage }}
-    </p>
-  }
+  </div>
 </div>

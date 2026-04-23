@@ -27,7 +27,6 @@ export class Users implements OnInit {
   isEditMode = false;
   private nextLocalUserId = 100000;
   
-  // Form validation
   formErrors: any = {
     firstName: '',
     lastName: '',
@@ -39,7 +38,6 @@ export class Users implements OnInit {
   formSubmitError = '';
   formSubmitSuccess = '';
   
-  // Delete confirmation dialog
   showDeleteDialog = false;
   userToDelete: any = null;
 
@@ -59,7 +57,6 @@ export class Users implements OnInit {
     });
   }
 
-  // Scroll to form smoothly
   scrollToForm(): void {
     setTimeout(() => {
       if (this.userFormCard) {
@@ -71,7 +68,6 @@ export class Users implements OnInit {
     }, 100);
   }
 
-  // Validate individual field
   validateField(fieldName: string): boolean {
     switch (fieldName) {
       case 'firstName':
@@ -136,7 +132,6 @@ export class Users implements OnInit {
     }
   }
 
-  // Validate entire form
   validateForm(): boolean {
     const isFirstNameValid = this.validateField('firstName');
     const isLastNameValid = this.validateField('lastName');
@@ -146,7 +141,6 @@ export class Users implements OnInit {
     return isFirstNameValid && isLastNameValid && isEmailValid && isUsernameValid;
   }
 
-  // Check if form has any errors
   hasFormErrors(): boolean {
     return Object.values(this.formErrors).some(error => error !== '');
   }
@@ -156,13 +150,11 @@ export class Users implements OnInit {
     this.formSubmitError = '';
     this.formSubmitSuccess = '';
     
-    // Validate all fields
     if (!this.validateForm()) {
       this.formSubmitError = 'Please correct the errors in the form';
       return;
     }
     
-    // Check for duplicate email (optional validation)
     const isDuplicateEmail = this.users.some(u => 
       u.email?.toLowerCase() === this.formUser.email?.toLowerCase() && 
       Number(u.id) !== Number(this.formUser.id)
@@ -198,13 +190,11 @@ export class Users implements OnInit {
       error: (error) => {
         console.error('Error adding user:', error);
         
-        // Handle specific API errors
         if (error.status === 409) {
           this.formSubmitError = 'A user with this email or username already exists';
         } else if (error.status === 400) {
           this.formSubmitError = error.error?.message || 'Invalid user data provided';
         } else {
-          // Fallback for API failure
           const fallbackUser = {
             ...this.formUser,
             id: Number(this.nextLocalUserId++)
@@ -226,7 +216,6 @@ export class Users implements OnInit {
     this.formSubmitSuccess = '';
     this.clearFormErrors();
     
-    // Scroll to form when editing
     this.scrollToForm();
   }
 
@@ -235,10 +224,8 @@ export class Users implements OnInit {
     this.formSubmitError = '';
     this.formSubmitSuccess = '';
 
-    // Always try API first, but always update local state regardless
     this.api.updateUser(id, this.formUser).subscribe({
       next: (updatedUser) => {
-        // API success - update with server response
         this.users = this.users.map(u =>
           Number(u.id) === id ? updatedUser : u
         );
@@ -248,12 +235,10 @@ export class Users implements OnInit {
       error: (error) => {
         console.error('Error updating user via API:', error);
         
-        // API failed - update locally anyway (this allows editing of newly created users)
         this.users = this.users.map(u =>
           Number(u.id) === id ? { ...this.formUser } : u
         );
         
-        // Set appropriate message based on error
         if (error.status === 404) {
           this.formSubmitSuccess = 'User updated successfully!';
         } else if (error.status === 500 || error.status === 0) {
@@ -282,7 +267,6 @@ export class Users implements OnInit {
     this.isEditMode = false;
     this.isFormSubmitted = false;
     this.formSubmitError = '';
-    // Don't clear success message immediately
     setTimeout(() => {
       this.formSubmitSuccess = '';
     }, 3000);
@@ -299,19 +283,16 @@ export class Users implements OnInit {
     };
   }
 
-  // Open delete confirmation dialog
   openDeleteDialog(user: any): void {
     this.userToDelete = user;
     this.showDeleteDialog = true;
   }
 
-  // Close delete dialog
   closeDeleteDialog(): void {
     this.showDeleteDialog = false;
     this.userToDelete = null;
   }
 
-  // Confirm and execute delete
   confirmDelete(): void {
     if (!this.userToDelete) return;
     
@@ -320,19 +301,14 @@ export class Users implements OnInit {
     
     if (numericId < 100000) {
       this.api.deleteUser(numericId).subscribe({
-        // error: (error) => {
-        //   console.error('Error deleting user:', error);
-        //   this.formSubmitError = 'Failed to delete user from server';
-        // }
+        
       });
     }
     
     this.formSubmitSuccess = `${this.userToDelete.firstName} ${this.userToDelete.lastName} has been deleted`;
     
-    // Close dialog
     this.closeDeleteDialog();
     
-    // Clear success message after 3 seconds
     setTimeout(() => {
       this.formSubmitSuccess = '';
     }, 3000);

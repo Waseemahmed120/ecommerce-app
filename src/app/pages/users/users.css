@@ -1,5 +1,4 @@
-/* Forms fix for very small screens */
-@media (max-width: 375px) {
+/* @media (max-width: 375px) {
   input,
   button {
     width: 100%;
@@ -16,5 +15,5 @@
 }
 
 table {
-  min-width: 600px; /* forces horizontal scroll */
-}
+  min-width: 600px; 
+} */

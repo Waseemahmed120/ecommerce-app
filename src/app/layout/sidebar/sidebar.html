@@ -1,4 +1,4 @@
-
+<!-- 
 <div class="d-flex">
   <aside
     class="sidebar bg-dark text-white d-flex flex-column p-3 position-fixed top-0 start-0 vh-100"
@@ -55,4 +55,152 @@
     </button>
   </div>
 </div>
+ -->
 
+
+
+
+
+
+
+
+
+
+ <!-- 
+  =============================================
+  SIDEBAR COMPONENT
+  =============================================
+  Animated sidebar with glassmorphism effect
+  Matches the login page theme
+  =============================================
+-->
+
+<div class="sidebar-wrapper">
+  
+  <!-- Animated Background Rings -->
+  <!-- Creates the same visual effect as login page -->
+  <div class="sidebar-rings">
+    <i style="--clr:#00ff0a;"></i>
+    <i style="--clr:#ff0057;"></i>
+    <i style="--clr:#fffd44;"></i>
+  </div>
+  
+  <!-- 
+    Main Sidebar Container
+    Glassmorphism effect with backdrop blur
+  -->
+  <aside
+    class="sidebar"
+    [class.open]="isSidebarOpen"
+  >
+    <!-- 
+      =============================================
+      SIDEBAR HEADER
+      =============================================
+      ShopHub logo with glow effect
+    -->
+    <div class="sidebar-header">
+      <h4 class="sidebar-title">
+        <span class="title-icon">🛍️</span>
+        <span class="title-text">ShopHub</span>
+      </h4>
+      <div class="title-underline"></div>
+    </div>
+
+    <!-- 
+      =============================================
+      NAVIGATION MENU
+      =============================================
+      Animated nav links with hover effects
+    -->
+    <nav class="sidebar-nav">
+      
+      <!-- Users Link -->
+      <a
+        class="nav-link"
+        routerLink="users"
+        routerLinkActive="active"
+        (click)="closeSidebar()"
+      >
+        <span class="nav-icon">
+          <i class="bi bi-people"></i>
+        </span>
+        <span class="nav-text">Users</span>
+        <span class="nav-indicator"></span>
+      </a>
+
+      <!-- Products Link -->
+      <a
+        class="nav-link"
+        routerLink="posts"
+        routerLinkActive="active"
+        (click)="closeSidebar()"
+      >
+        <span class="nav-icon">
+          <i class="bi bi-shop"></i>
+        </span>
+        <span class="nav-text">Products</span>
+        <span class="nav-indicator"></span>
+      </a>
+
+      <!-- Cart Link -->
+      <a
+        class="nav-link"
+        routerLink="cart"
+        routerLinkActive="active"
+        (click)="closeSidebar()"
+      >
+        <span class="nav-icon">
+          <i class="bi bi-cart"></i>
+        </span>
+        <span class="nav-text">Cart</span>
+        <span class="nav-indicator"></span>
+      </a>
+      
+    </nav>
+
+    <!-- 
+      =============================================
+      LOGOUT BUTTON
+      =============================================
+      Animated logout button at bottom
+    -->
+    <div class="sidebar-footer">
+      <button
+        class="logout-btn"
+        (click)="logout()"
+      >
+        <span class="logout-icon">
+          <i class="bi bi-box-arrow-right"></i>
+        </span>
+        <span class="logout-text">Logout</span>
+        <span class="logout-glow"></span>
+      </button>
+    </div>
+    
+    <!-- 
+      Decorative corner accents
+      Adds visual interest to the sidebar
+    -->
+    <div class="sidebar-accent sidebar-accent-top"></div>
+    <div class="sidebar-accent sidebar-accent-bottom"></div>
+    
+  </aside>
+
+  <!-- 
+    =============================================
+    MOBILE TOGGLE BUTTON
+    =============================================
+    Floating button for mobile devices
+  -->
+  <div class="mobile-toggle-wrapper">
+    <button
+      class="mobile-toggle-btn"
+      (click)="toggleSidebar()"
+    >
+      <i class="bi" [class.bi-list]="!isSidebarOpen" [class.bi-x-lg]="isSidebarOpen"></i>
+      <span class="toggle-glow"></span>
+    </button>
+  </div>
+  
+</div>
