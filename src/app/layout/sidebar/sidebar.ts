@@ -44,7 +44,6 @@
 
 
 
-
 import { Component, Output, EventEmitter } from '@angular/core';
 import { RouterLink, Router, RouterLinkActive } from '@angular/router';
 import { CommonModule } from '@angular/common';
@@ -80,6 +79,7 @@ export class Sidebar {
   logout(): void {
     this.auth.logout();
     this.isSidebarOpen = false;
+    this.sidebarToggled.emit(false);
     this.router.navigateByUrl('/login', { replaceUrl: true });
   }
 }

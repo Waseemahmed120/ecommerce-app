@@ -2,7 +2,7 @@
 <div class="container-fluid px-0">
 
   <div class="d-flex justify-content-between align-items-center mb-4 flex-wrap gap-3">
-    <h4 class="fw-semibold mb-0">Products</h4>
+    <h4 class="fw-semibold mb-0" style="color: white;">Products :</h4>
     
     <div class="d-flex gap-2 align-items-center">
       <div class="btn-group" role="group">
@@ -107,7 +107,11 @@
     </div>
   </div>
 
-  <div *ngIf="viewMode === 'table'" class="table-responsive">
+
+
+
+  
+  <!-- <div *ngIf="viewMode === 'table'" class="table-responsive">
     <table class="table table-hover align-middle">
       <thead class="table-light">
         <tr>
@@ -156,7 +160,73 @@
         </tr>
       </tbody>
     </table>
-  </div>
+  </div> -->
+
+
+
+
+
+
+
+
+<div *ngIf="viewMode === 'table'" class="table-responsive">
+  <table class="table table-hover align-middle w-100">
+    <thead class="table-light">
+      <tr>
+        <th class="d-none d-sm-table-cell" style="width: 70px;">Image</th>
+        <th>Title</th>
+        <th class="d-none d-md-table-cell">Description</th>
+        <th class="d-none d-lg-table-cell">Rating</th>
+        <th>Price</th>
+        <th>Actions</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let p of filteredProducts" class="product-row" (click)="viewProductDetails(p)" style="cursor: pointer;">
+        <td class="d-none d-sm-table-cell" (click)="openImagePreview($event, p.images[0], p.title); $event.stopPropagation()">
+          <img [src]="p.images[0] || 'https://via.placeholder.com/50x50?text=No+Image'"
+               style="width: 40px; height: 40px; object-fit: cover; border-radius: 4px; cursor: zoom-in;"
+               alt="{{ p.title }}">
+        </td>
+        <td class="fw-semibold small">{{ p.title }}</td>
+        <td class="text-muted small d-none d-md-table-cell">{{ p.description?.slice(0, 60) }}...</td>
+        <td class="d-none d-lg-table-cell" (click)="$event.stopPropagation()">
+          <div class="d-flex gap-1">
+            <ng-container *ngFor="let star of getStars(5)">
+              <i class="bi"
+                 [class.bi-star-fill]="star <= p.rating"
+                 [class.bi-star]="star > p.rating"
+                 [class.text-warning]="star <= p.rating"
+                 [class.text-muted]="star > p.rating"
+                 style="cursor: pointer; font-size: 0.8rem;"
+                 (click)="setRating($event, p, star)">
+              </i>
+            </ng-container>
+          </div>
+        </td>
+        <td class="fw-bold text-primary small">${{ p.price | number:'1.2-2' }}</td>
+        <td (click)="$event.stopPropagation()">
+          <div class="d-flex gap-1">
+            <button class="btn btn-outline-primary btn-sm px-2 py-1" (click)="addToCart($event, p)">
+              <i class="bi bi-cart-plus"></i>
+            </button>
+            <button class="btn btn-primary btn-sm px-2 py-1" (click)="buyNow($event, p)">
+              <i class="bi bi-lightning"></i>
+            </button>
+          </div>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+</div>
+
+
+
+
+
+
+
+
 
   <div class="text-center py-5" *ngIf="!filteredProducts.length">
     <i class="bi bi-search display-1 text-muted"></i>

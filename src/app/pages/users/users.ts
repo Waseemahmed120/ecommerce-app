@@ -8,6 +8,7 @@ import { ApiService } from '../../services/api.service';
   standalone: true,
   imports: [CommonModule, FormsModule],
   templateUrl: './users.html',
+  styleUrl: './users.css'
 })
 
 export class Users implements OnInit {

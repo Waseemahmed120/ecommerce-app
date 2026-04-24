@@ -136,3 +136,41 @@
     overflow-y: visible;
   }
 }
+
+
+
+
+
+
+
+
+
+
+.suggested-wrapper {
+  position: relative;
+  min-height: 150px;
+}
+
+@keyframes fadeSlideIn {
+  from {
+    opacity: 0;
+    transform: translateY(10px) scale(0.95);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}
+
+.suggested-section .badge {
+  animation: pulseBadge 2s ease-in-out infinite;
+}
+
+@keyframes pulseBadge {
+  0%, 100% {
+    opacity: 0.7;
+  }
+  50% {
+    opacity: 1;
+  }
+}

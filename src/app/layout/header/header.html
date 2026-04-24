@@ -1,10 +1,13 @@
 
-<header class="header bg-inherit shadow-sm">
+<header class="header bg-inherit shadow-sm" style="  background: linear-gradient(10deg, #091f0d, #fffd44);
+;
+;
+">
   <div class="container-fluid px-4">
     <div class="d-flex justify-content-end align-items-center py-3">
       <div class="d-flex align-items-center gap-3">
         <div class="position-relative cart-icon" (click)="goToCart()" style="cursor: pointer;">
-          <i class="bi bi-cart3 fs-3"></i>
+          <i class="bi bi-cart3 text-white fs-3"></i>
           <span 
             *ngIf="cartCount > 0"
             class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger"

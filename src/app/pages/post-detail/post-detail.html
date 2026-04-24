@@ -4,13 +4,13 @@
   <div *ngIf="!loading && product">
     
     <nav aria-label="breadcrumb" class="mb-2">
-      <ol class="breadcrumb">
-        <li class="breadcrumb-item"><a routerLink="/dashboard/posts">Products</a></li>
-        <li class="breadcrumb-item active">{{ product.title }}</li>
+      <ol class="breadcrumb" style="--bs-breadcrumb-divider-color: #ff5733;">
+        <li class="breadcrumb-item" ><a routerLink="/dashboard/posts" class="text-white">Products</a></li>
+        <li class="breadcrumb-item active text-white" >{{ product.title }}</li>
       </ol>
     </nav>
 
-    <div class="row g-3 align-items-stretch">
+    <div class="row g-3 text-white align-items-stretch">
       <div class="col-md-6">
         <div class="image-box h-100 position-relative" style="cursor: zoom-in;" (click)="openImagePreview(product.images[0], product.title)">
           <img [src]="product.images[0]" 
@@ -28,10 +28,10 @@
       <div class="col-md-6">
         <div class="info-box p-3 bg-light rounded shadow-sm h-100 d-flex flex-column">
           
-          <h2 class="fw-bold mb-2">{{ product.title }}</h2>
+          <h2 class="fw-bold mb-2 text-dark">{{ product.title }}</h2>
           
           <div class="d-flex align-items-center gap-2 mb-2">
-            <div class="d-flex gap-1">
+            <div class="d-flex gap-1 text-dark">
               <ng-container *ngFor="let star of getStars(5)">
                 <i class="bi"
                    [class.bi-star-fill]="star <= product.rating"
@@ -46,7 +46,7 @@
             <span class="text-muted small">({{ product.rating || 0 }}/5)</span>
           </div>
 
-          <div class="description-section mb-2 flex-grow-1">
+          <div class="description-section mb-2 flex-grow-1 text-dark">
             <h5 class="fw-semibold mb-1">
               <i class="bi bi-file-text me-1 text-primary"></i>Description
             </h5>
@@ -96,7 +96,7 @@
       </div>
     </div>
 
-    <div class="suggested-section mt-3" *ngIf="suggestedProducts.length">
+    <!-- <div class="suggested-section mt-3" *ngIf="suggestedProducts.length">
       <h4 class="fw-semibold mb-2">Suggest Products: </h4>
       <div class="row g-2">
         <div class="col-3" *ngFor="let sp of suggestedProducts">
@@ -120,7 +120,46 @@
           </div>
         </div>
       </div>
+    </div> -->
+
+
+
+
+
+
+    <div class="suggested-section mt-3" *ngIf="displayedSuggestedProducts.length">
+  <div class="d-flex align-items-center justify-content-between mb-2">
+    <h4 class="fw-semibold mb-0">Suggest Products</h4>
+    <span class="badge bg-primary bg-opacity-25 text-primary px-2 py-1" style="font-size: 0.7rem;">
+      Auto-swapping
+    </span>
+  </div>
+  
+  <div class="row g-2 suggested-wrapper">
+    <div class="col-3" *ngFor="let sp of displayedSuggestedProducts; let i = index" 
+         [style.animation]="'fadeSlideIn 0.5s ease ' + (i * 0.08) + 's both'">
+      <div class="card h-100 shadow-sm product-card" style="cursor: pointer;" (click)="viewSuggestedProduct(sp.id)">
+        <img [src]="sp.images[0]" 
+             class="card-img-top"
+             style="height: 90px; object-fit: cover;"
+             alt="{{ sp.title }}">
+        <div class="card-body p-2">
+          <h6 class="card-title fw-semibold small mb-1 text-truncate">{{ sp.title }}</h6>
+          
+          <div class="d-flex gap-1 mb-1">
+            <ng-container *ngFor="let star of getStars(5)">
+              <i class="bi bi-star-fill text-warning" *ngIf="star <= sp.rating" style="font-size: 0.6rem;"></i>
+              <i class="bi bi-star text-muted" *ngIf="star > sp.rating" style="font-size: 0.6rem;"></i>
+            </ng-container>
+          </div>
+          
+          <p class="card-text text-primary fw-bold small mb-0">${{ sp.price | number:'1.2-2' }}</p>
+        </div>
+      </div>
     </div>
+  </div>
+</div>
+
 
   </div>
 
@@ -145,7 +184,7 @@
         <div class="modal-body text-center p-0">
           <img [src]="previewImageUrl" 
                class="img-fluid rounded" 
-               style="max-height: 85vh; width: auto;"
+               style="max-height: 75vh; width: auto;"
                alt="{{ previewProductTitle }}">
         </div>
         
