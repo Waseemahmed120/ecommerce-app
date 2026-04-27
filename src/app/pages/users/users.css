@@ -1,211 +1,449 @@
-/* @media (max-width: 375px) {
-  input,
-  button {
-    width: 100%;
-  }
-}
-
-
-
-
-
-.table-responsive {
-  overflow-x: auto;
-  -webkit-overflow-scrolling: touch;
-}
-
-table {
-  min-width: 600px; 
-} */
-
-
-
-
-
-
-
-
-
-
-/* 
-.modal.fade.show.d-block {
-  position: fixed;       
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;          
-  display: flex;        
-  align-items: center;   
-  justify-content: center;
-  z-index: 1050;        
-} */
-
-
-
-
-
-
 
 .delete-overlay {
   position: fixed;
   top: 0;
   left: 0;
-  width: 100%;
-  height: 100%;
-  background: rgba(10, 10, 20, 0.85);
-  backdrop-filter: blur(10px);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  z-index: 9999;
-  animation: fadeIn 0.2s ease;
-}
-
-.delete-dialog {
-  background: rgba(20, 20, 35, 0.95);
+  width: 100vw;
+  height: 100vh;
+  background: rgba(0, 0, 0, 0.85);
   backdrop-filter: blur(20px);
-  border: 1px solid rgba(255, 255, 255, 0.08);
-  border-radius: 20px;
-  padding: 30px 28px;
-  width: 360px;
-  text-align: center;
-  box-shadow: 0 30px 60px rgba(0, 0, 0, 0.5);
-  animation: zoomIn 0.3s ease;
-}
-
-.dialog-icon-wrap {
-  width: 60px;
-  height: 60px;
-  margin: 0 auto 15px;
-  background: rgba(255, 193, 7, 0.1);
-  border: 1px solid rgba(255, 193, 7, 0.2);
-  border-radius: 50%;
+  -webkit-backdrop-filter: blur(20px);
   display: flex;
   align-items: center;
   justify-content: center;
-  font-size: 1.8rem;
-  color: #fffd44;
-  box-shadow: 0 0 30px rgba(255, 253, 68, 0.15);
-}
-
-.delete-dialog h3 {
-  color: #ffffff;
-  font-size: 1.2rem;
-  font-weight: 600;
-  margin-bottom: 8px;
-}
-
-.dialog-text {
-  color: rgba(255, 255, 255, 0.6);
-  font-size: 0.9rem;
-  margin-bottom: 18px;
-}
-
-.dialog-user-card {
-  display: flex;
-  align-items: center;
-  gap: 12px;
-  background: rgba(255, 255, 255, 0.03);
-  border: 1px solid rgba(255, 255, 255, 0.06);
-  border-radius: 14px;
-  padding: 12px;
-  margin-bottom: 15px;
-}
-
-.dialog-avatar {
-  width: 44px;
-  height: 44px;
-  border-radius: 50%;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  font-size: 1rem;
-  font-weight: 700;
-  color: #ffffff;
-  text-transform: uppercase;
-  flex-shrink: 0;
-}
-
-.dialog-user-info {
-  text-align: left;
-  min-width: 0;
-}
-
-.dialog-user-name {
-  display: block;
-  color: #ffffff;
-  font-weight: 600;
-  font-size: 0.9rem;
-  margin-bottom: 2px;
-}
-
-.dialog-user-email {
-  display: block;
-  color: rgba(255, 255, 255, 0.4);
-  font-size: 0.8rem;
-  white-space: nowrap;
+  z-index: 99999;
+  isolation: isolate;
   overflow: hidden;
-  text-overflow: ellipsis;
+  animation: overlayFadeIn 0.3s ease;
+  padding: 20px;
 }
 
-.dialog-warning {
-  color: #ff0057;
-  font-size: 0.8rem;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  gap: 5px;
-  margin-bottom: 20px;
-}
-
-.dialog-buttons {
-  display: flex;
-  gap: 10px;
-}
-
-.dialog-btn {
-  flex: 1;
-  padding: 11px 16px;
-  border-radius: 12px;
-  font-size: 0.9rem;
-  font-weight: 500;
-  cursor: pointer;
-  transition: all 0.2s ease;
-}
-
-.dialog-btn-cancel {
-  background: rgba(255, 255, 255, 0.05);
-  border: 1px solid rgba(255, 255, 255, 0.1);
-  color: rgba(255, 255, 255, 0.7);
-}
-
-.dialog-btn-cancel:hover {
-  background: rgba(255, 255, 255, 0.1);
-  color: #ffffff;
-}
-
-.dialog-btn-delete {
-  background: linear-gradient(135deg, #ff0057, #fffd44);
-  border: none;
-  color: #ffffff;
-  box-shadow: 0 0 25px rgba(255, 0, 87, 0.3);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  gap: 6px;
-}
-
-.dialog-btn-delete:hover {
-  transform: translateY(-1px);
-  box-shadow: 0 0 35px rgba(255, 0, 87, 0.5);
-}
-
-@keyframes fadeIn {
+@keyframes overlayFadeIn {
   from { opacity: 0; }
   to { opacity: 1; }
 }
 
-@keyframes zoomIn {
-  from { opacity: 0; transform: scale(0.9); }
-  to { opacity: 1; transform: scale(1); }
+.delete-dialog {
+  background: linear-gradient(145deg, #1a1a2e 0%, #16213e 50%, #0f3460 100%);
+  border: 1px solid rgba(255, 77, 77, 0.3);
+  border-radius: 24px;
+  padding: 35px 30px 30px;
+  max-width: 420px;
+  width: 100%;
+  max-height: 90vh;
+  text-align: center;
+  position: relative;
+  z-index: 100000;
+  box-shadow: 
+    0 30px 60px rgba(0, 0, 0, 0.8),
+    0 0 40px rgba(255, 77, 77, 0.15),
+    0 0 80px rgba(0, 0, 0, 0.4),
+    inset 0 1px 0 rgba(255, 255, 255, 0.05);
+  animation: dialogSlideIn 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+  overflow: hidden;
+  contain: layout style paint;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+.delete-dialog::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 3px;
+  background: linear-gradient(90deg, transparent, #ff4d4d, #ffb347, #ff4d4d, transparent);
+  background-size: 200% 100%;
+  animation: warningLine 2s linear infinite;
+  z-index: 2;
+}
+
+@keyframes dialogSlideIn {
+  from {
+    opacity: 0;
+    transform: scale(0.7) translateY(30px);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1) translateY(0);
+  }
+}
+
+@keyframes warningLine {
+  0% { background-position: 200% 0; }
+  100% { background-position: -200% 0; }
+}
+
+/* Icon Container */
+.dialog-icon-wrap {
+  position: relative;
+  width: 70px;
+  height: 70px;
+  margin: 0 auto 20px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 3;
+  flex-shrink: 0;
+}
+
+.icon-outer-ring {
+  position: absolute;
+  width: 70px;
+  height: 70px;
+  border-radius: 50%;
+  border: 2px solid rgba(255, 77, 77, 0.2);
+  animation: ringSpin 4s linear infinite;
+}
+
+.icon-inner-ring {
+  position: absolute;
+  width: 55px;
+  height: 55px;
+  border-radius: 50%;
+  border: 2px dashed rgba(255, 179, 71, 0.3);
+  animation: ringSpin 3s linear infinite reverse;
+}
+
+@keyframes ringSpin {
+  from { transform: rotate(0deg); }
+  to { transform: rotate(360deg); }
+}
+
+.dialog-icon {
+  font-size: 32px;
+  color: #ffb347;
+  text-shadow: 
+    0 0 20px rgba(255, 179, 71, 0.8),
+    0 0 40px rgba(255, 179, 71, 0.4);
+  animation: iconPulse 2s ease-in-out infinite;
+  position: relative;
+  z-index: 4;
+}
+
+@keyframes iconPulse {
+  0%, 100% { 
+    transform: scale(1);
+    filter: brightness(1);
+  }
+  50% { 
+    transform: scale(1.08);
+    filter: brightness(1.2);
+  }
+}
+
+/* Title */
+.dialog-title {
+  font-size: 24px;
+  font-weight: 700;
+  margin: 0 0 8px;
+  background: linear-gradient(135deg, #ff4d4d 0%, #ffb347 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  letter-spacing: -0.5px;
+  position: relative;
+  z-index: 3;
+  flex-shrink: 0;
+}
+
+/* Message */
+.dialog-message {
+  color: rgba(255, 255, 255, 0.5);
+  font-size: 13px;
+  line-height: 1.5;
+  margin: 0 0 15px;
+  position: relative;
+  z-index: 3;
+  flex-shrink: 0;
+}
+
+/* User Card */
+.dialog-user-card {
+  background: rgba(0, 0, 0, 0.4);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-radius: 14px;
+  padding: 12px 14px;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin-bottom: 16px;
+  position: relative;
+  overflow: hidden;
+  z-index: 3;
+  flex-shrink: 0;
+}
+
+.dialog-user-card::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: linear-gradient(135deg, rgba(255, 77, 77, 0.05), rgba(255, 179, 71, 0.05));
+  pointer-events: none;
+  z-index: 0;
+}
+
+.user-avatar {
+  width: 38px;
+  height: 38px;
+  min-width: 38px;
+  border-radius: 12px;
+  background: linear-gradient(135deg, #ff4d4d, #ffb347);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 4px 12px rgba(255, 77, 77, 0.3);
+  flex-shrink: 0;
+  position: relative;
+  z-index: 1;
+}
+
+.avatar-text {
+  color: white;
+  font-weight: 700;
+  font-size: 16px;
+  text-transform: uppercase;
+}
+
+.user-details {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 2px;
+  position: relative;
+  z-index: 1;
+  min-width: 0;
+  flex: 1;
+}
+
+.user-name {
+  color: #fff;
+  font-weight: 600;
+  font-size: 14px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  max-width: 100%;
+}
+
+.user-email {
+  color: rgba(255, 255, 255, 0.5);
+  font-size: 12px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  max-width: 100%;
+}
+
+/* Action Buttons */
+.dialog-actions {
+  display: flex;
+  gap: 10px;
+  position: relative;
+  z-index: 3;
+  flex-shrink: 0;
+}
+
+.btn-cancel,
+.btn-delete {
+  flex: 1;
+  padding: 12px 16px;
+  border-radius: 12px;
+  font-weight: 600;
+  font-size: 13px;
+  cursor: pointer;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  border: none;
+  outline: none;
+  position: relative;
+  overflow: hidden;
+  letter-spacing: 0.3px;
+  white-space: nowrap;
+}
+
+.btn-cancel {
+  background: rgba(255, 255, 255, 0.05);
+  border: 1px solid rgba(255, 255, 255, 0.15);
+  color: rgba(255, 255, 255, 0.8);
+}
+
+.btn-cancel:hover {
+  background: rgba(255, 255, 255, 0.12);
+  border-color: rgba(255, 255, 255, 0.3);
+  transform: translateY(-2px);
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.3);
+}
+
+.btn-delete {
+  background: linear-gradient(135deg, #ff4d4d, #ff6b6b, #ffb347);
+  background-size: 200% 200%;
+  color: white;
+  border: none;
+  box-shadow: 0 5px 20px rgba(255, 77, 77, 0.3);
+  animation: gradientShift 3s ease infinite;
+}
+
+@keyframes gradientShift {
+  0%, 100% { background-position: 0% 50%; }
+  50% { background-position: 100% 50%; }
+}
+
+.btn-delete::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: -100%;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
+  transition: left 0.5s ease;
+}
+
+.btn-delete:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 10px 30px rgba(255, 77, 77, 0.5);
+}
+
+.btn-delete:hover::before {
+  left: 100%;
+}
+
+.btn-cancel:active,
+.btn-delete:active {
+  transform: translateY(0);
+  transition: all 0.1s ease;
+}
+
+/* Tablet Responsive */
+@media (max-width: 768px) {
+  .delete-dialog {
+    max-width: 380px;
+    padding: 30px 25px 25px;
+  }
+  
+  .dialog-title {
+    font-size: 22px;
+  }
+}
+
+/* Mobile Responsive */
+@media (max-width: 480px) {
+  .delete-overlay {
+    padding: 15px;
+  }
+  
+  .delete-dialog {
+    padding: 25px 20px 20px;
+    margin: 10px;
+    width: calc(100% - 20px);
+    max-height: 85vh;
+    border-radius: 20px;
+  }
+  
+  .dialog-actions {
+    flex-direction: column;
+    gap: 8px;
+  }
+  
+  .btn-delete {
+    order: -1;
+  }
+  
+  .dialog-title {
+    font-size: 20px;
+  }
+  
+  .dialog-message {
+    font-size: 12px;
+  }
+  
+  .dialog-icon-wrap {
+    width: 60px;
+    height: 60px;
+    margin-bottom: 15px;
+  }
+  
+  .icon-outer-ring {
+    width: 60px;
+    height: 60px;
+  }
+  
+  .icon-inner-ring {
+    width: 45px;
+    height: 45px;
+  }
+  
+  .dialog-icon {
+    font-size: 28px;
+  }
+  
+  .dialog-user-card {
+    padding: 10px 12px;
+    gap: 10px;
+  }
+  
+  .user-avatar {
+    width: 35px;
+    height: 35px;
+    min-width: 35px;
+    border-radius: 10px;
+  }
+  
+  .avatar-text {
+    font-size: 14px;
+  }
+  
+  .user-name {
+    font-size: 13px;
+  }
+  
+  .user-email {
+    font-size: 11px;
+  }
+  
+  .btn-cancel,
+  .btn-delete {
+    padding: 12px 14px;
+    font-size: 13px;
+  }
+}
+
+/* Small Mobile Responsive */
+@media (max-width: 350px) {
+  .delete-dialog {
+    padding: 20px 15px 15px;
+  }
+  
+  .dialog-title {
+    font-size: 18px;
+  }
+  
+  .dialog-icon-wrap {
+    width: 50px;
+    height: 50px;
+    margin-bottom: 12px;
+  }
+  
+  .icon-outer-ring {
+    width: 50px;
+    height: 50px;
+  }
+  
+  .icon-inner-ring {
+    width: 38px;
+    height: 38px;
+  }
+  
+  .dialog-icon {
+    font-size: 24px;
+  }
 }
