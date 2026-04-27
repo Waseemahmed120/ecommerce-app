@@ -24,6 +24,12 @@ export class Header implements OnInit {
     });
   }
 
+
+  toggleSidebar(): void {
+    this.toggleSidebar();
+  }
+
+
   goToCart(): void {
     this.router.navigate(['/dashboard/cart']);
   }

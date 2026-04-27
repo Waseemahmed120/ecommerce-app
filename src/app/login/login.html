@@ -1,63 +1,80 @@
+<div class="d-flex justify-content-center align-items-center min-vh-100 bg-light">
+  <div class="container">
+    <div class="row justify-content-center">
+      <div class="col-12 col-sm-8 col-md-6 col-lg-5">
+        
+        <!-- Login Card -->
+        <div class="card shadow-lg border-0 rounded-4 p-4">
+          <div class="card-body">
+            
+            <h2 class="text-center fw-bold mb-4">Login</h2>
 
-<div class="ring-wrapper">
-  <div class="ring">
-    <i style="--clr:#00ff0a;"></i>
-    <i style="--clr:#ff0057;"></i>
-    <i style="--clr:#fffd44;"></i>
-    
-    <div class="login">
-      <h2>Login</h2>
-      
-      <form [formGroup]="loginForm" (ngSubmit)="login()">
-        
-        <div class="inputBx">
-          <input 
-            type="text" 
-            placeholder="Username"
-            formControlName="username"
-            autocomplete="off"
-            [class.error]="usernameControl?.invalid && usernameControl?.touched"
-          />
-          <div class="error-message" *ngIf="usernameControl?.invalid && usernameControl?.touched">
-            Username is required
+            <form [formGroup]="loginForm" (ngSubmit)="login()" novalidate>
+              
+              <!-- Email/Username Input -->
+              <div class="mb-3">
+                <label for="username" class="form-label small fw-semibold">Email</label>
+                <input 
+                  type="text" 
+                  id="username"
+                  class="form-control form-control-lg"
+                  [class.is-invalid]="usernameControl?.invalid && usernameControl?.touched"
+                  placeholder="email@example.com"
+                  formControlName="username"
+                  autocomplete="off"
+                />
+                <div class="invalid-feedback" *ngIf="usernameControl?.invalid && usernameControl?.touched">
+                  Username is required
+                </div>
+              </div>
+
+              <!-- Password Input -->
+              <div class="mb-4">
+                <label for="password" class="form-label small fw-semibold">Password</label>
+                <div class="input-group">
+                  <input 
+                    [type]="showPassword ? 'text' : 'password'"
+                    id="password"
+                    class="form-control form-control-lg"
+                    [class.is-invalid]="passwordControl?.invalid && passwordControl?.touched"
+                    placeholder="Enter your password"
+                    formControlName="password"
+                    autocomplete="current-password"
+                  />
+                  <button 
+                    type="button" 
+                    class="btn btn-outline-secondary"
+                    (click)="togglePassword()"
+                    tabindex="-1"
+                  >
+                    <i class="bi" [class.bi-eye-slash]="showPassword" [class.bi-eye]="!showPassword"></i>
+                  </button>
+                </div>
+                <div class="invalid-feedback d-block" *ngIf="passwordControl?.invalid && passwordControl?.touched">
+                  Password is required
+                </div>
+              </div>
+
+              <!-- Error Alert -->
+              <div class="alert alert-danger py-2 text-center" *ngIf="errorMessage">
+                {{ errorMessage }}
+              </div>
+
+              <!-- Submit Button -->
+              <button 
+                type="submit" 
+                class="btn btn-primary w-100 py-3 fw-semibold"
+                [disabled]="loginForm.invalid"
+              >
+                SIGN IN
+              </button>
+
+            </form>
+
           </div>
         </div>
-        
-        <div class="inputBx password-wrapper">
-          <input 
-            [type]="showPassword ? 'text' : 'password'"
-            placeholder="Password"
-            formControlName="password"
-            autocomplete="current-password"
-            [class.error]="passwordControl?.invalid && passwordControl?.touched"
-          />
-          <button 
-            type="button" 
-            class="password-toggle" 
-            (click)="togglePassword()"
-            tabindex="-1"
-          >
-            <i class="bi" [class.bi-eye-slash]="showPassword" [class.bi-eye]="!showPassword"></i>
-          </button>
-          <div class="error-message" *ngIf="passwordControl?.invalid && passwordControl?.touched">
-            Password is required
-          </div>
-        </div>
-        
-        <div class="alert-error" *ngIf="errorMessage">
-          {{ errorMessage }}
-        </div>
-        
-        <div class="inputBx">
-          <input 
-            type="submit" 
-            value="Sign in"
-            [disabled]="loginForm.invalid"
-            [class.disabled]="loginForm.invalid"
-          />
-        </div>
-        
-      </form>
+
+      </div>
     </div>
   </div>
 </div>

@@ -15,7 +15,6 @@ export class Users implements OnInit {
 
   @ViewChild('userFormCard') userFormCard!: ElementRef;
 
-  // Add this inside your component class
 @ViewChild('deleteDialog') deleteDialog!: ElementRef;
 
   users: any[] = [];
@@ -296,7 +295,6 @@ export class Users implements OnInit {
   this.userToDelete = user;
   this.showDeleteDialog = true;
   
-  // Scroll to delete dialog after it renders
   setTimeout(() => {
     if (this.deleteDialog) {
       this.deleteDialog.nativeElement.scrollIntoView({ 
