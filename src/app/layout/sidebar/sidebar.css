@@ -5,7 +5,7 @@
 
 .hamburger-btn {
   position: fixed;
-  top: 16px;
+  top: 14px;
   left: 16px;
   z-index: 1080;
   width: 42px;
@@ -31,14 +31,14 @@
   position: fixed;
   top: 0;
   left: 0;
-  width: 260px;
+  width: 230px;
   height: 100vh;
   display: flex;
   flex-direction: column;
-  padding-top: 4.5rem;
+  padding-top: 1.5rem;
   z-index: 1040;
-  border-right: 1px solid #dee2e6;
-  box-shadow: 2px 0 12px rgba(0, 0, 0, 0.05);
+  border-right: 1px solid #b1b5b9;
+  /* box-shadow: 2px 0 12px rgba(0, 0, 0, 0.05); */
   transform: translateX(-100%);
   transition: transform 0.3s ease;
   overflow-y: auto;
@@ -100,3 +100,4 @@
     font-size: 1.2rem;
   }
 } 
+

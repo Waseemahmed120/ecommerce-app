@@ -1,13 +1,20 @@
 
 <div class="sidebar-wrapper">
  
-  <button class="hamburger-btn" (click)="toggleSidebar()">
+  <!-- <button class="hamburger-btn" (click)="toggleSidebar()">
     <i class="bi" [class.bi-list]="!isSidebarOpen" [class.bi-x-lg]="isSidebarOpen"></i>
+  </button> -->
+
+  <button
+    class="hamburger-btn"
+    *ngIf="!isSidebarOpen"
+    (click)="toggleSidebar()">
+    <i class="bi bi-list"></i>
   </button>
 
   <aside class="sidebar bg-white" [class.open]="isSidebarOpen">
 
-    <div class="sidebar-header px-3 pt-4 pb-3">
+    <div class="sidebar-header px-3 pt-2 pb-3">
       <h4 class="fw-bold mb-0 d-flex align-items-center gap-2">
         <span class="text-warning fs-3">📦</span>
         <span>ShoppingHub</span>
@@ -67,6 +74,10 @@
     
   </aside>
 
-  <div class="sidebar-overlay" [class.show]="isSidebarOpen" (click)="closeSidebar()"></div>
+  <div
+    class="sidebar-overlay"
+    [class.show]="isSidebarOpen"
+    (click)="closeSidebar()">
+  </div>
   
 </div>

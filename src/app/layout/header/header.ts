@@ -10,27 +10,29 @@ import { CartService } from '../../services/cart';
   templateUrl: './header.html',
   styleUrl: './header.css'
 })
-export class Header implements OnInit {
-  cartCount = 0;
-
-  constructor(
-    private cartService: CartService,
-    private router: Router
-  ) {}
-
-  ngOnInit(): void {
-    this.cartService.cartCount$.subscribe(count => {
-      this.cartCount = count;
-    });
-  }
+ export class Header implements OnInit {
+   cartCount = 0;
+   isSidebarOpen = false;
 
 
-  toggleSidebar(): void {
-    this.toggleSidebar();
-  }
+   constructor(
+     private cartService: CartService,
+     private router: Router
+   ) {}
+
+   ngOnInit(): void {
+     this.cartService.cartCount$.subscribe(count => {
+       this.cartCount = count;
+     });
+   }
 
 
-  goToCart(): void {
-    this.router.navigate(['/dashboard/cart']);
-  }
-}
+   toggleSidebar() {
+     this.isSidebarOpen = !this.isSidebarOpen;
+   }
+
+
+   goToCart(): void {
+     this.router.navigate(['/dashboard/cart']);
+   }
+ }

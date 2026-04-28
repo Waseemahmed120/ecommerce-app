@@ -1,448 +1,242 @@
-
+/* ===============================
+   Overlay
+================================ */
 .delete-overlay {
   position: fixed;
-  top: 0;
-  left: 0;
-  width: 100vw;
-  height: 100vh;
-  background: rgba(0, 0, 0, 0.85);
-  backdrop-filter: blur(20px);
-  -webkit-backdrop-filter: blur(20px);
+  inset: 0;
+  background: rgba(15, 18, 25, 0.65);
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
   display: flex;
   align-items: center;
   justify-content: center;
-  z-index: 99999;
-  isolation: isolate;
-  overflow: hidden;
-  animation: overlayFadeIn 0.3s ease;
+  z-index: 10000;
   padding: 20px;
 }
 
-@keyframes overlayFadeIn {
-  from { opacity: 0; }
-  to { opacity: 1; }
-}
-
+/* ===============================
+   Dialog Container
+================================ */
 .delete-dialog {
-  background: linear-gradient(145deg, #1a1a2e 0%, #16213e 50%, #0f3460 100%);
-  border: 1px solid rgba(255, 77, 77, 0.3);
-  border-radius: 24px;
-  padding: 35px 30px 30px;
-  max-width: 420px;
+  background: #111827; /* neutral enterprise dark */
+  border-radius: 16px;
   width: 100%;
-  max-height: 90vh;
-  text-align: center;
-  position: relative;
-  z-index: 100000;
-  box-shadow: 
-    0 30px 60px rgba(0, 0, 0, 0.8),
-    0 0 40px rgba(255, 77, 77, 0.15),
-    0 0 80px rgba(0, 0, 0, 0.4),
-    inset 0 1px 0 rgba(255, 255, 255, 0.05);
-  animation: dialogSlideIn 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
-  overflow: hidden;
-  contain: layout style paint;
+  max-width: 420px;
+  padding: 28px;
+  box-shadow:
+    0 20px 40px rgba(0, 0, 0, 0.45);
   display: flex;
   flex-direction: column;
-  justify-content: center;
+  gap: 16px;
 }
 
-.delete-dialog::before {
-  content: '';
-  position: absolute;
-  top: 0;
-  left: 0;
-  right: 0;
-  height: 3px;
-  background: linear-gradient(90deg, transparent, #ff4d4d, #ffb347, #ff4d4d, transparent);
-  background-size: 200% 100%;
-  animation: warningLine 2s linear infinite;
-  z-index: 2;
-}
-
-@keyframes dialogSlideIn {
-  from {
-    opacity: 0;
-    transform: scale(0.7) translateY(30px);
-  }
-  to {
-    opacity: 1;
-    transform: scale(1) translateY(0);
-  }
-}
-
-@keyframes warningLine {
-  0% { background-position: 200% 0; }
-  100% { background-position: -200% 0; }
-}
-
+/* ===============================
+   Icon
+================================ */
 .dialog-icon-wrap {
-  position: relative;
-  width: 70px;
-  height: 70px;
-  margin: 0 auto 20px;
+  width: 56px;
+  height: 56px;
+  border-radius: 12px;
+  background: rgba(239, 68, 68, 0.12);
   display: flex;
   align-items: center;
   justify-content: center;
-  z-index: 3;
-  flex-shrink: 0;
-}
-
-.icon-outer-ring {
-  position: absolute;
-  width: 70px;
-  height: 70px;
-  border-radius: 50%;
-  border: 2px solid rgba(255, 77, 77, 0.2);
-  animation: ringSpin 4s linear infinite;
-}
-
-.icon-inner-ring {
-  position: absolute;
-  width: 55px;
-  height: 55px;
-  border-radius: 50%;
-  border: 2px dashed rgba(255, 179, 71, 0.3);
-  animation: ringSpin 3s linear infinite reverse;
-}
-
-@keyframes ringSpin {
-  from { transform: rotate(0deg); }
-  to { transform: rotate(360deg); }
 }
 
 .dialog-icon {
-  font-size: 32px;
-  color: #ffb347;
-  text-shadow: 
-    0 0 20px rgba(255, 179, 71, 0.8),
-    0 0 40px rgba(255, 179, 71, 0.4);
-  animation: iconPulse 2s ease-in-out infinite;
-  position: relative;
-  z-index: 4;
+  font-size: 26px;
+  color: #ef4444;
 }
 
-@keyframes iconPulse {
-  0%, 100% { 
-    transform: scale(1);
-    filter: brightness(1);
-  }
-  50% { 
-    transform: scale(1.08);
-    filter: brightness(1.2);
-  }
-}
-
-/* Title */
+/* ===============================
+   Title & Message
+================================ */
 .dialog-title {
-  font-size: 24px;
-  font-weight: 700;
-  margin: 0 0 8px;
-  background: linear-gradient(135deg, #ff4d4d 0%, #ffb347 100%);
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
-  background-clip: text;
-  letter-spacing: -0.5px;
-  position: relative;
-  z-index: 3;
-  flex-shrink: 0;
+  font-size: 18px;
+  font-weight: 600;
+  color: #f9fafb;
 }
 
-/* Message */
 .dialog-message {
-  color: rgba(255, 255, 255, 0.5);
-  font-size: 13px;
+  font-size: 14px;
   line-height: 1.5;
-  margin: 0 0 15px;
-  position: relative;
-  z-index: 3;
-  flex-shrink: 0;
+  color: #9ca3af;
 }
 
-/* User Card */
+/* ===============================
+   User Card
+================================ */
 .dialog-user-card {
-  background: rgba(0, 0, 0, 0.4);
-  border: 1px solid rgba(255, 255, 255, 0.08);
-  border-radius: 14px;
-  padding: 12px 14px;
   display: flex;
   align-items: center;
   gap: 12px;
-  margin-bottom: 16px;
-  position: relative;
-  overflow: hidden;
-  z-index: 3;
-  flex-shrink: 0;
-}
-
-.dialog-user-card::before {
-  content: '';
-  position: absolute;
-  top: 0;
-  left: 0;
-  right: 0;
-  bottom: 0;
-  background: linear-gradient(135deg, rgba(255, 77, 77, 0.05), rgba(255, 179, 71, 0.05));
-  pointer-events: none;
-  z-index: 0;
+  padding: 12px;
+  border-radius: 12px;
+  background: #0b1220;
+  border: 1px solid rgba(255, 255, 255, 0.06);
 }
 
 .user-avatar {
-  width: 38px;
-  height: 38px;
-  min-width: 38px;
-  border-radius: 12px;
-  background: linear-gradient(135deg, #ff4d4d, #ffb347);
+  width: 36px;
+  height: 36px;
+  border-radius: 8px;
+  background: #1f2937;
+  color: #e5e7eb;
   display: flex;
   align-items: center;
   justify-content: center;
-  box-shadow: 0 4px 12px rgba(255, 77, 77, 0.3);
-  flex-shrink: 0;
-  position: relative;
-  z-index: 1;
-}
-
-.avatar-text {
-  color: white;
-  font-weight: 700;
-  font-size: 16px;
-  text-transform: uppercase;
+  font-weight: 600;
+  font-size: 14px;
 }
 
 .user-details {
-  display: flex;
-  flex-direction: column;
-  align-items: flex-start;
-  gap: 2px;
-  position: relative;
-  z-index: 1;
   min-width: 0;
-  flex: 1;
 }
 
 .user-name {
-  color: #fff;
-  font-weight: 600;
   font-size: 14px;
+  font-weight: 500;
+  color: #f3f4f6;
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
-  max-width: 100%;
 }
 
 .user-email {
-  color: rgba(255, 255, 255, 0.5);
   font-size: 12px;
+  color: #9ca3af;
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
-  max-width: 100%;
 }
 
-/* Action Buttons */
+/* ===============================
+   Actions
+================================ */
 .dialog-actions {
   display: flex;
+  justify-content: flex-end;
   gap: 10px;
-  position: relative;
-  z-index: 3;
-  flex-shrink: 0;
+  margin-top: 8px;
 }
 
 .btn-cancel,
 .btn-delete {
-  flex: 1;
-  padding: 12px 16px;
-  border-radius: 12px;
-  font-weight: 600;
-  font-size: 13px;
+  padding: 10px 16px;
+  border-radius: 10px;
+  font-size: 14px;
+  font-weight: 500;
   cursor: pointer;
-  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  gap: 6px;
-  border: none;
-  outline: none;
-  position: relative;
-  overflow: hidden;
-  letter-spacing: 0.3px;
-  white-space: nowrap;
+  transition: background 0.2s ease, box-shadow 0.2s ease;
 }
 
+/* Cancel */
 .btn-cancel {
-  background: rgba(255, 255, 255, 0.05);
-  border: 1px solid rgba(255, 255, 255, 0.15);
-  color: rgba(255, 255, 255, 0.8);
+  background: transparent;
+  color: #d1d5db;
+  border: 1px solid rgba(255, 255, 255, 0.12);
 }
 
 .btn-cancel:hover {
-  background: rgba(255, 255, 255, 0.12);
-  border-color: rgba(255, 255, 255, 0.3);
-  transform: translateY(-2px);
-  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.3);
+  background: rgba(255, 255, 255, 0.06);
 }
 
+/* Delete */
 .btn-delete {
-  background: linear-gradient(135deg, #ff4d4d, #ff6b6b, #ffb347);
-  background-size: 200% 200%;
-  color: white;
+  background: #ef4444;
+  color: #ffffff;
   border: none;
-  box-shadow: 0 5px 20px rgba(255, 77, 77, 0.3);
-  animation: gradientShift 3s ease infinite;
-}
-
-@keyframes gradientShift {
-  0%, 100% { background-position: 0% 50%; }
-  50% { background-position: 100% 50%; }
-}
-
-.btn-delete::before {
-  content: '';
-  position: absolute;
-  top: 0;
-  left: -100%;
-  width: 100%;
-  height: 100%;
-  background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
-  transition: left 0.5s ease;
 }
 
 .btn-delete:hover {
-  transform: translateY(-2px);
-  box-shadow: 0 10px 30px rgba(255, 77, 77, 0.5);
+  background: #dc2626;
+  box-shadow: 0 6px 16px rgba(239, 68, 68, 0.35);
 }
 
-.btn-delete:hover::before {
-  left: 100%;
-}
-
-.btn-cancel:active,
-.btn-delete:active {
-  transform: translateY(0);
-  transition: all 0.1s ease;
-}
-
-/* Tablet Responsive */
-@media (max-width: 768px) {
-  .delete-dialog {
-    max-width: 380px;
-    padding: 30px 25px 25px;
-  }
-  
-  .dialog-title {
-    font-size: 22px;
-  }
-}
-
-/* Mobile Responsive */
+/* ===============================
+   Responsive
+================================ */
 @media (max-width: 480px) {
-  .delete-overlay {
-    padding: 15px;
-  }
-  
   .delete-dialog {
-    padding: 25px 20px 20px;
-    margin: 10px;
-    width: calc(100% - 20px);
-    max-height: 85vh;
-    border-radius: 20px;
+    padding: 22px;
   }
-  
+
   .dialog-actions {
-    flex-direction: column;
-    gap: 8px;
+    flex-direction: column-reverse;
   }
-  
-  .btn-delete {
-    order: -1;
-  }
-  
-  .dialog-title {
-    font-size: 20px;
-  }
-  
-  .dialog-message {
-    font-size: 12px;
-  }
-  
-  .dialog-icon-wrap {
-    width: 60px;
-    height: 60px;
-    margin-bottom: 15px;
-  }
-  
-  .icon-outer-ring {
-    width: 60px;
-    height: 60px;
-  }
-  
-  .icon-inner-ring {
-    width: 45px;
-    height: 45px;
-  }
-  
-  .dialog-icon {
-    font-size: 28px;
-  }
-  
-  .dialog-user-card {
-    padding: 10px 12px;
-    gap: 10px;
-  }
-  
-  .user-avatar {
-    width: 35px;
-    height: 35px;
-    min-width: 35px;
-    border-radius: 10px;
-  }
-  
-  .avatar-text {
-    font-size: 14px;
-  }
-  
-  .user-name {
-    font-size: 13px;
-  }
-  
-  .user-email {
-    font-size: 11px;
-  }
-  
+
   .btn-cancel,
   .btn-delete {
-    padding: 12px 14px;
-    font-size: 13px;
+    width: 100%;
   }
 }
 
-/* Small Mobile Responsive */
-@media (max-width: 350px) {
-  .delete-dialog {
-    padding: 20px 15px 15px;
+
+
+
+
+
+
+
+
+
+/* Scroll to form fix */
+html {
+  scroll-behavior: smooth;
+}
+
+
+
+
+
+
+
+
+
+
+html {
+  scroll-behavior: smooth;
+}
+
+@media (max-width: 575.98px) {
+  .form-control-sm {
+    padding: 0.375rem 0.75rem;
+    font-size: 0.875rem;
   }
   
-  .dialog-title {
-    font-size: 18px;
+  .card-header {
+    padding: 0.75rem 1rem;
   }
   
-  .dialog-icon-wrap {
-    width: 50px;
-    height: 50px;
-    margin-bottom: 12px;
+  .card-body {
+    padding: 1rem;
+  }
+}
+
+@media (min-width: 576px) {
+  .w-sm-auto {
+    width: auto !important;
+  }
+}
+
+@media (min-width: 768px) {
+  .form-control-md {
+    padding: 0.5rem 0.875rem;
+    font-size: 0.95rem;
   }
   
-  .icon-outer-ring {
-    width: 50px;
-    height: 50px;
+  .fs-md-5 {
+    font-size: 1.25rem !important;
   }
   
-  .icon-inner-ring {
-    width: 38px;
-    height: 38px;
+  .fs-md-4 {
+    font-size: 1.5rem !important;
   }
-  
-  .dialog-icon {
-    font-size: 24px;
+}
+
+@media (max-width: 767.98px) {
+  .container-fluid {
+    padding-left: 0.75rem;
+    padding-right: 0.75rem;
   }
 }

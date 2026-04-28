@@ -1,156 +1,137 @@
-﻿<div class="container-fluid px-0 min-vh-100" style="background: rgba(10, 10, 20, 0.85); backdrop-filter: blur(20px); background-attachment: fixed;">
+﻿<div class="container-fluid p-3 p-md-4 bg-light min-vh-100">
 
-  <div class="card shadow mb-4 text-light border-0 animate__animated animate__fadeInUp" 
-       #userFormCard
-       style="background: rgba(20, 20, 35, 0.7) !important; backdrop-filter: blur(20px) !important; border: 1px solid rgba(0, 255, 10, 0.15) !important; border-radius: 14px !important; box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5), inset 0 0 20px rgba(0, 255, 10, 0.05) !important; transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1); animation: fadeInUp 0.5s ease-out;"
-       onmouseover="this.style.transform='translateY(-4px)'; this.style.boxShadow='0 20px 40px rgba(0, 0, 0, 0.6), inset 0 0 30px rgba(0, 255, 10, 0.1)'; this.style.borderColor='rgba(0, 255, 10, 0.3)';"
-       onmouseout="this.style.transform='translateY(0)'; this.style.boxShadow='0 10px 30px rgba(0, 0, 0, 0.5), inset 0 0 20px rgba(0, 255, 10, 0.05)'; this.style.borderColor='rgba(0, 255, 10, 0.15)';">
-    
-    <div class="card-header text-light fw-semibold border-0" 
-         style="background: rgba(0, 255, 10, 0.05) !important; border-bottom: 1px solid rgba(0, 255, 10, 0.2) !important; border-radius: 14px 14px 0 0 !important;">
-      <span style="background: linear-gradient(135deg, #00ff0a 0%, #fffd44 100%); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;">
-        {{ isEditMode ? 'Edit User' : 'Add User' }}
-      </span>
+  <!-- Success Alert -->
+  <div *ngIf="formSubmitSuccess" class="alert alert-success alert-dismissible fade show d-flex align-items-center shadow-sm border-0 rounded-3" role="alert">
+    <i class="bi bi-check-circle-fill me-2 fs-5"></i>
+    <div class="small">{{ formSubmitSuccess }}</div>
+    <button type="button" class="btn-close" (click)="formSubmitSuccess = ''" aria-label="Close"></button>
+  </div>
+
+  <!-- Error Alert -->
+  <div *ngIf="formSubmitError" class="alert alert-danger alert-dismissible fade show d-flex align-items-center shadow-sm border-0 rounded-3" role="alert">
+    <i class="bi bi-exclamation-triangle-fill me-2 fs-5"></i>
+    <div class="small">{{ formSubmitError }}</div>
+    <button type="button" class="btn-close" (click)="formSubmitError = ''" aria-label="Close"></button>
+  </div>
+
+  <!-- User Form Card -->
+  <div class="card shadow-sm border-0 rounded-3 mb-4" #userFormCard>
+    <div class="card-header bg-success border-bottom py-2 py-md-3">
+      <h5 class="mb-0 fw-semibold text-white fs-6 fs-md-5">
+        <i class="bi me-2" [class.bi-person-plus]="!isEditMode" [class.bi-pencil-square]="isEditMode"></i>
+        {{ isEditMode ? 'Edit User' : 'Add New User' }}
+      </h5>
     </div>
 
-    <div class="card-body">
-      <form (ngSubmit)="submitUser()" #userForm="ngForm">
+    <div class="card-body p-3 p-md-4">
+      <form (ngSubmit)="submitUser()" #userForm="ngForm" novalidate>
         
-        <div *ngIf="formSubmitSuccess" 
-             class="alert alert-success alert-dismissible fade show mb-3 border-0 animate__animated animate__slideInDown"
-             style="background: rgba(58, 59, 58, 0.1) !important; border-left: 4px solid #00ff0a !important; border-radius: 14px !important; color: #6ee7b7 !important; box-shadow: 0 0 30px rgba(0, 255, 10, 0.15);"
-             role="alert">
-          <i class="bi bi-check-circle me-2" style="color: #00ff0a;"></i>
-          {{ formSubmitSuccess }}
-          <button type="button" class="btn-close btn-close-white" (click)="formSubmitSuccess = ''" aria-label="Close"></button>
-        </div>
-        
-        <div *ngIf="formSubmitError" 
-             class="alert alert-danger alert-dismissible fade show mb-3 border-0 animate__animated animate__slideInDown"
-             style="background: rgba(255, 0, 87, 0.1) !important; border-left: 4px solid #ff0057 !important; border-radius: 14px !important; color: #fca5a5 !important; box-shadow: 0 0 30px rgba(255, 0, 87, 0.15);"
-             role="alert">
-          <i class="bi bi-exclamation-triangle me-2" style="color: #ff0057;"></i>
-          {{ formSubmitError }}
-          <button type="button" class="btn-close btn-close-white" (click)="formSubmitError = ''" aria-label="Close"></button>
-        </div>
-        
-        <div class="row g-3">
+        <div class="row g-2 g-md-3">
 
-          <div class="col-12 col-md-6 col-lg-3">
-            <label class="form-label small" style="color: rgba(255, 255, 255, 0.7) !important;">First Name <span style="color: #ff0057;">*</span></label>
+          <div class="col-12 col-sm-6 col-lg-3">
+            <label class="form-label fw-semibold small text-secondary">
+              First Name <span class="text-danger">*</span>
+            </label>
             <input 
-              class="form-control text-light border-0 animate__animated animate__fadeInRight"
+              type="text"
+              class="form-control form-control-sm form-control-md"
               [class.is-invalid]="formErrors.firstName && isFormSubmitted"
               [class.is-valid]="!formErrors.firstName && formUser.firstName && isFormSubmitted"
-              placeholder="Enter first name"
+              placeholder="First name"
               [(ngModel)]="formUser.firstName"
               name="firstName"
               (input)="validateField('firstName')"
               (blur)="validateField('firstName')"
               required
-              style="background: rgba(255, 255, 255, 0.05) !important; border: 1px solid rgba(255, 255, 255, 0.1) !important; border-radius: 14px !important; transition: all 0.3s ease;"
-              onfocus="this.style.transform='scale(1.02)'; this.style.borderColor='#00ff0a'; this.style.boxShadow='0 0 30px rgba(0, 255, 10, 0.2)'; this.style.background='rgba(255, 255, 255, 0.08)';"
-              onblur="this.style.transform='scale(1)'; this.style.borderColor='rgba(255, 255, 255, 0.1)'; this.style.boxShadow='none'; this.style.background='rgba(255, 255, 255, 0.05)';"
             />
-            <div *ngIf="formErrors.firstName && isFormSubmitted" class="invalid-feedback animate__animated animate__fadeInUp" style="color: #ff0057 !important;">
+            <div *ngIf="formErrors.firstName && isFormSubmitted" class="invalid-feedback small">
               {{ formErrors.firstName }}
             </div>
           </div>
 
-          <div class="col-12 col-md-6 col-lg-3">
-            <label class="form-label small" style="color: rgba(255, 255, 255, 0.7) !important;">Last Name <span style="color: #ff0057;">*</span></label>
+          <div class="col-12 col-sm-6 col-lg-3">
+            <label class="form-label fw-semibold small text-secondary">
+              Last Name <span class="text-danger">*</span>
+            </label>
             <input 
-              class="form-control text-light border-0 animate__animated animate__fadeInRight"
+              type="text"
+              class="form-control form-control-sm form-control-md"
               [class.is-invalid]="formErrors.lastName && isFormSubmitted"
               [class.is-valid]="!formErrors.lastName && formUser.lastName && isFormSubmitted"
-              placeholder="Enter last name"
+              placeholder="Last name"
               [(ngModel)]="formUser.lastName"
               name="lastName"
               (input)="validateField('lastName')"
               (blur)="validateField('lastName')"
               required
-              style="background: rgba(255, 255, 255, 0.05) !important; border: 1px solid rgba(255, 255, 255, 0.1) !important; border-radius: 14px !important; transition: all 0.3s ease;"
-              onfocus="this.style.transform='scale(1.02)'; this.style.borderColor='#00ff0a'; this.style.boxShadow='0 0 30px rgba(0, 255, 10, 0.2)'; this.style.background='rgba(255, 255, 255, 0.08)';"
-              onblur="this.style.transform='scale(1)'; this.style.borderColor='rgba(255, 255, 255, 0.1)'; this.style.boxShadow='none'; this.style.background='rgba(255, 255, 255, 0.05)';"
             />
-            <div *ngIf="formErrors.lastName && isFormSubmitted" class="invalid-feedback animate__animated animate__fadeInUp" style="color: #ff0057 !important;">
+            <div *ngIf="formErrors.lastName && isFormSubmitted" class="invalid-feedback small">
               {{ formErrors.lastName }}
             </div>
           </div>
 
-          <div class="col-12 col-md-6 col-lg-3">
-            <label class="form-label small" style="color: rgba(255, 255, 255, 0.7) !important;">Email</label>
+          <div class="col-12 col-sm-6 col-lg-3">
+            <label class="form-label fw-semibold small text-secondary">
+              Email <span class="text-danger">*</span>
+            </label>
             <input 
-              class="form-control text-light border-0 animate__animated animate__fadeInRight"
+              type="email"
+              class="form-control form-control-sm form-control-md"
               [class.is-invalid]="formErrors.email && isFormSubmitted"
               [class.is-valid]="!formErrors.email && formUser.email && isFormSubmitted"
-              placeholder="Enter email (optional)"
+              placeholder="email@example.com"
               [(ngModel)]="formUser.email"
               name="email"
-              type="email"
               (input)="validateField('email')"
               (blur)="validateField('email')"
-              style="background: rgba(255, 255, 255, 0.05) !important; border: 1px solid rgba(255, 255, 255, 0.1) !important; border-radius: 14px !important; transition: all 0.3s ease;"
-              onfocus="this.style.transform='scale(1.02)'; this.style.borderColor='#00ff0a'; this.style.boxShadow='0 0 30px rgba(0, 255, 10, 0.2)'; this.style.background='rgba(255, 255, 255, 0.08)';"
-              onblur="this.style.transform='scale(1)'; this.style.borderColor='rgba(255, 255, 255, 0.1)'; this.style.boxShadow='none'; this.style.background='rgba(255, 255, 255, 0.05)';"
+              required
             />
-            <div *ngIf="formErrors.email && isFormSubmitted" class="invalid-feedback animate__animated animate__fadeInUp" style="color: #ff0057 !important;">
+            <div *ngIf="formErrors.email && isFormSubmitted" class="invalid-feedback small">
               {{ formErrors.email }}
             </div>
           </div>
 
-          <div class="col-12 col-md-6 col-lg-3">
-            <label class="form-label small" style="color: rgba(255, 255, 255, 0.7) !important;">Username</label>
+          <div class="col-12 col-sm-6 col-lg-3">
+            <label class="form-label fw-semibold small text-secondary">Username</label>
             <input 
-              class="form-control text-light border-0 animate__animated animate__fadeInRight"
+              type="text"
+              class="form-control form-control-sm form-control-md"
               [class.is-invalid]="formErrors.username && isFormSubmitted"
               [class.is-valid]="!formErrors.username && formUser.username && isFormSubmitted"
-              placeholder="Enter username (optional)"
+              placeholder="Username"
               [(ngModel)]="formUser.username"
               name="username"
               (input)="validateField('username')"
               (blur)="validateField('username')"
-              style="background: rgba(255, 255, 255, 0.05) !important; border: 1px solid rgba(255, 255, 255, 0.1) !important; border-radius: 14px !important; transition: all 0.3s ease;"
-              onfocus="this.style.transform='scale(1.02)'; this.style.borderColor='#00ff0a'; this.style.boxShadow='0 0 30px rgba(0, 255, 10, 0.2)'; this.style.background='rgba(255, 255, 255, 0.08)';"
-              onblur="this.style.transform='scale(1)'; this.style.borderColor='rgba(255, 255, 255, 0.1)'; this.style.boxShadow='none'; this.style.background='rgba(255, 255, 255, 0.05)';"
             />
-            <div *ngIf="formErrors.username && isFormSubmitted" class="invalid-feedback animate__animated animate__fadeInUp" style="color: #ff0057 !important;">
+            <div *ngIf="formErrors.username && isFormSubmitted" class="invalid-feedback small">
               {{ formErrors.username }}
             </div>
           </div>
 
-          <div class="col-12 d-flex justify-content-end gap-2 mt-2">
-
-            <button
-              type="submit"
-              class="btn position-relative overflow-hidden border-0 text-white"
-              [disabled]="hasFormErrors() && isFormSubmitted"
-              [style.background]="isEditMode ? 'linear-gradient(135deg, #00ff0a, #fffd44)' : 'linear-gradient(135deg, #00ff0a, #ff0057)'"
-              style="border-radius: 14px !important; padding: 0.625rem 1.25rem !important; transition: all 0.3s ease; box-shadow: 0 0 30px rgba(0, 255, 10, 0.3);"
-              onmouseover="this.style.transform='translateY(-2px)'; this.style.boxShadow='0 0 50px rgba(0, 255, 10, 0.5)';"
-              onmouseout="this.style.transform='translateY(0)'; this.style.boxShadow='0 0 30px rgba(0, 255, 10, 0.3)';"
-            >
-              <i class="bi" [class.bi-plus-circle]="!isEditMode" [class.bi-check-circle]="isEditMode"></i>
-              {{ isEditMode ? 'Save User' : 'Add User' }}
-            </button>
-
-            <button
-              *ngIf="isEditMode"
-              type="button"
-              class="btn text-white"
-              (click)="cancelEdit()"
-              style="background: rgba(255, 255, 255, 0.05) !important; border: 1px solid rgba(255, 255, 255, 0.1) !important; border-radius: 14px !important; padding: 0.625rem 1.25rem !important; transition: all 0.3s ease;"
-              onmouseover="this.style.transform='translateY(-2px)'; this.style.background='rgba(255, 255, 255, 0.1)'; this.style.borderColor='rgba(255, 255, 255, 0.2)';"
-              onmouseout="this.style.transform='translateY(0)'; this.style.background='rgba(255, 255, 255, 0.05)'; this.style.borderColor='rgba(255, 255, 255, 0.1)';"
-            >
-              <i class="bi bi-x-circle"></i>
-              Cancel
-            </button>
-
-          </div>
-          
           <div class="col-12">
-            <small style="color: rgba(255, 255, 255, 0.5);"><span style="color: #ff0057;">*</span> Required fields</small>
+            <div class="d-flex flex-column flex-sm-row gap-2 justify-content-sm-end">
+              <button
+                *ngIf="isEditMode"
+                type="button"
+                class="btn btn-outline-secondary w-100 w-sm-auto"
+                (click)="cancelEdit()"
+              >
+                <i class="bi bi-x-circle me-1"></i> Cancel
+              </button>
+              <button
+                type="submit"
+                class="btn btn-success text-white w-100 w-sm-auto"
+                [disabled]="hasFormErrors() && isFormSubmitted"
+              >
+                <i class="bi me-1" [class.bi-plus-circle]="!isEditMode" [class.bi-check-circle]="isEditMode"></i>
+                {{ isEditMode ? 'Update User' : 'Add User' }}
+              </button>
+            </div>
+          </div>
+
+          <div class="col-12">
+            <small class="text-muted"><span class="text-danger">*</span> Required fields</small>
           </div>
 
         </div>
@@ -158,117 +139,140 @@
     </div>
   </div>
 
-  <div class="row g-4" *ngIf="users.length">
+  <!-- Users Table Card -->
+  <div class="card shadow-sm border-0 rounded-3 " style="color: green;">
+    <div class="card-header bg-white d-flex justify-content-between align-items-center py-2 py-md-3 border-bottom">
+      <h5 class="badge mb-0 fw-semibold bg-success text-white fs-6 fs-md-5 rounded-pill">
+        <i class="bi bi-people-fill text-white me-2"></i>Users List
+      </h5>
+      <!-- <span class="badge bg-primary rounded-pill">{{ users.length }}</span> -->
+      <h5 class="mb-0 fw-semibold text-green fs-6 fs-md-5">
+        <span class="badge bg-success text-green rounded-pill"> Users {{ users.length }}</span></h5>
 
-    <div class="col-12 col-sm-6 col-md-4 col-xl-3"
-         *ngFor="let u of users; let i = index"
-         [style.animation]="'fadeInUp 0.5s ease-out ' + (i * 0.05) + 's both'">
+    </div>
 
-      <div class="card h-100 text-light border-0 animate__animated animate__fadeInUp"
-           style="background: rgba(20, 20, 35, 0.7) !important; backdrop-filter: blur(20px) !important; border: 1px solid rgba(255, 255, 255, 0.08) !important; border-radius: 14px !important; box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3), inset 0 0 20px rgba(0, 255, 10, 0.02) !important; transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);"
-           onmouseover="this.style.transform='translateY(-4px)'; this.style.boxShadow='0 20px 40px rgba(0, 0, 0, 0.4), inset 0 0 30px rgba(0, 255, 10, 0.05)'; this.style.borderColor='rgba(0, 255, 10, 0.3)';"
-           onmouseout="this.style.transform='translateY(0)'; this.style.boxShadow='0 4px 15px rgba(0, 0, 0, 0.3), inset 0 0 20px rgba(0, 255, 10, 0.02)'; this.style.borderColor='rgba(255, 255, 255, 0.08)';">
 
-        <div class="card-body">
-          <div class="d-flex align-items-center mb-3">
-            <div
-              class="rounded-circle text-white d-flex align-items-center justify-content-center me-3"
-              style="width:48px;height:48px;font-weight:600; background: linear-gradient(135deg, #00ff0a, #fffd44, #ff0057) !important; box-shadow: 0 0 30px rgba(0, 255, 10, 0.3); animation: pulse 2s infinite; transition: transform 0.3s ease;"
-              onmouseover="this.style.transform='scale(1.1)'; this.style.animation='none'; this.style.boxShadow='0 0 40px rgba(0, 255, 10, 0.5)';"
-              onmouseout="this.style.transform='scale(1)'; this.style.animation='pulse 2s infinite'; this.style.boxShadow='0 0 30px rgba(0, 255, 10, 0.3)';">
+    <!-- Desktop Table -->
+<div class="table-responsive d-none d-md-block">
+  <table class="table table-hover align-middle mb-0    table-striped 
+            table-bordered">
+    <thead >
+      <tr >
+        <th class="ps-4 " style="width: 60px;">#</th>
+        <th>User</th>
+        <th>Email</th>
+        <th>Username</th>
+        <th class="text-end pe-4" style="width: 120px;">Actions</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let u of users; let i = index">
+        <td class="ps-4 text-muted small">{{ i + 1 }}</td>
+        <td>
+          <div class="d-flex align-items-center gap-2">
+            <div class="rounded-circle bg-success bg-opacity-25 d-flex align-items-center justify-content-center fw-semibold text-dark flex-shrink-0" 
+                 style="width: 36px; height: 36px; font-size: 0.85rem;">
               {{ u.firstName[0] }}{{ u.lastName[0] }}
             </div>
+            <div class="fw-semibold small">{{ u.firstName }} {{ u.lastName }}</div>
+          </div>
+        </td>
+        <td class="text-muted small text-break">{{ u.email }}</td>
+        <td>
+          <span class="badge bg-light text-dark small">{{ u.username || 'N/A' }}</span>
+        </td>
+        <td class="text-end pe-4">
+          <div class="d-flex gap-1 justify-content-end">
+            <button class="btn btn-sm btn-outline-success" (click)="startEdit(u)" title="Edit">
+              <i class="bi bi-pencil-square"></i>
+            </button>
+            <button class="btn btn-sm btn-outline-danger" (click)="openDeleteDialog(u)" title="Delete">
+              <i class="bi bi-trash3"></i>
+            </button>
+          </div>
+        </td>
+      </tr>
+      <tr *ngIf="users.length === 0">
+        <td colspan="5" class="text-center text-muted py-5">
+          <i class="bi bi-people display-4"></i>
+          <p class="mt-2">No users found</p>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+</div>
 
-            <div>
-              <div class="fw-semibold" style="color: #ffffff;">
-                {{ u.firstName }} {{ u.lastName }}
+    <!-- Mobile Cards -->
+    <div class="d-md-none p-3">
+      <div *ngIf="users.length === 0" class="text-center text-muted py-5">
+        <i class="bi bi-people display-4"></i>
+        <p class="mt-2">No users found</p>
+      </div>
+      
+      <div *ngFor="let u of users; let i = index" class="card border-0 shadow-sm mb-3">
+        <div class="card-body p-3">
+          <div class="d-flex justify-content-between align-items-start mb-2">
+            <div class="d-flex align-items-center gap-2">
+              <div class="rounded-circle bg-success bg-opacity-25 d-flex align-items-center justify-content-center fw-semibold text-green flex-shrink-0" 
+                   style="width: 40px; height: 40px;">
+                {{ u.firstName[0] }}{{ u.lastName[0] }}
               </div>
-              <small style="color: rgba(255, 255, 255, 0.5);">@{{ u.username || 'no-username' }}</small>
+              <div>
+                <div class="fw-semibold small">{{ u.firstName }} {{ u.lastName }}</div>
+                <div class="text-muted small text-break">{{ u.email || 'No email' }}</div>
+              </div>
             </div>
+            <span class="badge bg-light text-dark small">{{ u.username || 'N/A' }}</span>
           </div>
-
-          <div class="small text-break" style="color: rgba(255, 255, 255, 0.7);">
-            <i class="bi bi-envelope me-2"></i>
-            {{ u.email || 'No email provided' }}
+          
+          <div class="d-flex gap-2 justify-content-end border-top pt-2 mt-2">
+            <button class="btn btn-sm btn-outline-primary" (click)="startEdit(u)">
+              <i class="bi bi-pencil-square me-1"></i> Edit
+            </button>
+            <button class="btn btn-sm btn-outline-danger" (click)="openDeleteDialog(u)">
+              <i class="bi bi-trash3 me-1"></i> Delete
+            </button>
           </div>
         </div>
-
-        <div class="card-footer border-0 d-flex justify-content-between" 
-             style="background: rgba(0, 0, 0, 0.2) !important; border-top: 1px solid rgba(255, 255, 255, 0.05) !important; border-radius: 0 0 14px 14px !important;">
-          <button class="btn btn-sm text-white"
-            (click)="startEdit(u)"
-            style="background: rgba(0, 255, 10, 0.1) !important; border: 1px solid rgba(0, 255, 10, 0.3) !important; border-radius: 14px !important; transition: all 0.3s ease;"
-            onmouseover="this.style.transform='translateY(-2px)'; this.style.background='rgba(0, 255, 10, 0.2)'; this.style.boxShadow='0 0 20px rgba(0, 255, 10, 0.3)';"
-            onmouseout="this.style.transform='translateY(0)'; this.style.background='rgba(0, 255, 10, 0.1)'; this.style.boxShadow='none';">
-            <i class="bi bi-pencil"></i>
-            Edit
-          </button>
-
-          <button class="btn btn-sm text-white"
-            (click)="openDeleteDialog(u)"
-            style="background: rgba(255, 0, 87, 0.1) !important; border: 1px solid rgba(255, 0, 87, 0.3) !important; border-radius: 14px !important; transition: all 0.3s ease;"
-            onmouseover="this.style.transform='translateY(-2px)'; this.style.background='rgba(255, 0, 87, 0.2)'; this.style.boxShadow='0 0 20px rgba(255, 0, 87, 0.3)';"
-            onmouseout="this.style.transform='translateY(0)'; this.style.background='rgba(255, 0, 87, 0.1)'; this.style.boxShadow='none';">
-            <i class="bi bi-trash"></i>
-            Delete
-          </button>
-        </div>
-
       </div>
     </div>
   </div>
-  
-  <div class="text-center py-5" *ngIf="!users.length">
-    <i class="bi bi-people display-1" style="color: rgba(255, 255, 255, 0.1); animation: float 3s ease-in-out infinite; text-shadow: 0 0 30px rgba(0, 255, 10, 0.3);"></i>
-    <h5 class="mt-3" style="color: rgba(255, 255, 255, 0.7);">No users found</h5>
-    <p style="color: rgba(255, 255, 255, 0.4);">Add a new user using the form above</p>
-  </div>
-  
-  <!-- Modern Delete Confirmation Dialog - Fully Responsive -->
-  <div class="delete-overlay" 
-       #deleteDialog
-       *ngIf="showDeleteDialog" 
-       (click)="closeDeleteDialog()">
-    <div class="delete-dialog" (click)="$event.stopPropagation()">
-      
-      <!-- Animated Warning Icon -->
-      <div class="dialog-icon-wrap">
-        <div class="icon-outer-ring"></div>
-        <div class="icon-inner-ring"></div>
-        <i class="bi bi-exclamation-triangle dialog-icon"></i>
-      </div>
-      
-      <!-- Title with Gradient -->
-      <h2 class="dialog-title">Delete User?</h2>
-      
-      <!-- Warning Message -->
-      <p class="dialog-message">
-        This action cannot be undone.
-      </p>
-      
-      <!-- User Info Card -->
-      <div class="dialog-user-card" *ngIf="userToDelete">
-        <div class="user-avatar">
-          <span class="avatar-text">{{ userToDelete.firstName[0] }}{{ userToDelete.lastName[0] }}</span>
+
+  <!-- Delete Confirmation Modal -->
+  <div *ngIf="showDeleteDialog" class="modal-backdrop show"></div>
+  <div *ngIf="showDeleteDialog" class="modal d-block" tabindex="-1">
+    <div class="modal-dialog modal-dialog-centered modal-sm modal-fullscreen-sm-down">
+      <div class="modal-content border-0 shadow-lg rounded-3">
+        <div class="modal-header border-0 pb-0 px-3 px-md-4">
+          <div class="d-flex align-items-center gap-2 gap-md-3">
+            <div class="rounded-3 bg-danger bg-opacity-10 p-2">
+              <i class="bi bi-exclamation-triangle text-danger fs-5 fs-md-4"></i>
+            </div>
+            <h5 class="modal-title fw-semibold fs-6">Delete User</h5>
+          </div>
+          <button type="button" class="btn-close" (click)="closeDeleteDialog()" aria-label="Close"></button>
         </div>
-        <div class="user-details">
-          <span class="user-name">{{ userToDelete.firstName }} {{ userToDelete.lastName }}</span>
-          <span class="user-email">{{ userToDelete.email || 'No email address' }}</span>
+        <div class="modal-body px-3 px-md-4">
+          <p class="text-muted small mb-3">Are you sure you want to delete this user? This action cannot be undone.</p>
+          
+          <div class="d-flex align-items-center gap-2 gap-md-3 p-2 p-md-3 bg-light rounded-3">
+            <div class="rounded-circle bg-primary bg-opacity-10 d-flex align-items-center justify-content-center fw-semibold text-primary flex-shrink-0" 
+                 style="width: 40px; height: 40px; font-size: 0.85rem;">
+              {{ userToDelete?.firstName[0] }}{{ userToDelete?.lastName[0] }}
+            </div>
+            <div class="min-w-0">
+              <div class="fw-semibold small text-truncate">{{ userToDelete?.firstName }} {{ userToDelete?.lastName }}</div>
+              <div class="text-muted small text-truncate">{{ userToDelete?.email || 'No email' }}</div>
+            </div>
+          </div>
+        </div>
+        <div class="modal-footer border-0 pt-0 px-3 px-md-4 flex-column flex-sm-row gap-2">
+          <button type="button" class="btn btn-secondary w-100 w-sm-auto" (click)="closeDeleteDialog()">Cancel</button>
+          <button type="button" class="btn btn-danger w-100 w-sm-auto" (click)="confirmDelete()">
+            <i class="bi bi-trash3 me-1"></i> Delete
+          </button>
         </div>
       </div>
-      
-      <!-- Action Buttons -->
-      <div class="dialog-actions">
-        <button class="btn-cancel" (click)="closeDeleteDialog()">
-          <i class="bi bi-x-circle"></i>
-          <span>Keep User</span>
-        </button>
-        <button class="btn-delete" (click)="confirmDelete()">
-          <i class="bi bi-trash3"></i>
-          <span>Delete Forever</span>
-        </button>
-      </div>
-      
     </div>
   </div>
 

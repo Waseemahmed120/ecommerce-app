@@ -1,6 +1,6 @@
 
 import { Component, Output, EventEmitter } from '@angular/core';
-import { RouterLink, Router, RouterLinkActive } from '@angular/router';
+import { RouterLink, Router, RouterLinkActive , NavigationStart} from '@angular/router';
 import { CommonModule } from '@angular/common';
 import { AuthService } from '../../auth';
 
@@ -19,7 +19,14 @@ export class Sidebar {
   constructor(
     private auth: AuthService,
     private router: Router
-  ) {}
+  ) {
+    this.router.events.subscribe(event => {
+      if (event instanceof NavigationStart) {
+        this.closeSidebar();
+      }
+    });
+
+  }
 
   toggleSidebar(): void {
     this.isSidebarOpen = !this.isSidebarOpen;
