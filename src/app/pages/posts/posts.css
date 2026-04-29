@@ -1,53 +1,118 @@
-/* .product-card {
-  transition: transform 0.2s ease, box-shadow 0.2s ease;
+
+.product-card {
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  border: 1px solid rgba(0, 0, 0, 0.05);
 }
 
 .product-card:hover {
   transform: translateY(-4px);
-  box-shadow: 0 8px 16px rgba(0,0,0,0.1) !important;
+  box-shadow: 0 8px 25px rgba(0, 0, 0, 0.1) !important;
+  border-color: #198754;
+}
+
+.product-image {
+  height: 160px;
+  object-fit: contain;
+  background: #f8f9fa;
+  padding: 8px;
+  transition: transform 0.4s ease;
+}
+
+.product-card:hover .product-image {
+  transform: scale(1.05);
+}
+
+.image-overlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(25, 135, 84, 0.2);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.3s ease;
+  opacity: 0;
+}
+
+.product-card:hover .image-overlay {
+  opacity: 1;
+}
+
+.product-title {
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
 }
 
 .product-row {
-  transition: background-color 0.2s ease;
+  transition: background-color 0.15s ease;
 }
 
 .product-row:hover {
-  background-color: #f8f9fa;
+  background-color: #f0faf4;
 }
+
+.table td, .table th {
+  vertical-align: middle;
+  font-size: 0.8rem;
+}
+
+@media (max-width: 575.98px) {
+  .container-fluid {
+    padding-left: 0.5rem;
+    padding-right: 0.5rem;
+  }
+  
+  .product-image {
+    height: 130px;
+  }
+}
+
+
+
+
+
+
 
 .table-responsive {
   overflow-x: auto;
   -webkit-overflow-scrolling: touch;
 }
 
-table {
-  min-width: 800px;
-}
- */
-
-
-
-
-
-
-
-
-
-
-
- .product-card {
-  transition: transform 0.2s ease, box-shadow 0.2s ease;
+.table {
+  min-width: 400px;
 }
 
-.product-card:hover {
-  transform: translateY(-4px);
-  box-shadow: 0 8px 16px rgba(0,0,0,0.1) !important;
+.table td, .table th {
+  white-space: nowrap;
+  vertical-align: middle;
 }
 
-.product-row {
-  transition: background-color 0.2s ease;
+@media (max-width: 575.98px) {
+  .table td, .table th {
+    font-size: 0.75rem;
+    padding: 0.5rem 0.5rem;
+  }
+  
+  .table th.ps-3, .table td.ps-3 {
+    padding-left: 0.5rem !important;
+  }
+  
+  .table th.text-end, .table td.text-end {
+    padding-right: 0.5rem !important;
+  }
 }
 
-.product-row:hover {
-  background-color: #f8f9fa;
+
+
+
+
+
+
+@media (max-width: 767.98px) {
+  .product-row:active {
+    background-color: #f0faf4;
+  }
 }

@@ -1,9 +1,5 @@
-
+<!-- 
 <div class="sidebar-wrapper">
- 
-  <!-- <button class="hamburger-btn" (click)="toggleSidebar()">
-    <i class="bi" [class.bi-list]="!isSidebarOpen" [class.bi-x-lg]="isSidebarOpen"></i>
-  </button> -->
 
   <button
     class="hamburger-btn"
@@ -63,6 +59,95 @@
     </nav>
 
     <div class="mt-auto px-3 pb-3">
+      <button
+        class="btn btn-outline-danger w-100 d-flex align-items-center gap-2 py-2"
+        (click)="logout()"
+      >
+        <i class="bi bi-box-arrow-right"></i>
+        <span>Logout</span>
+      </button>
+    </div>
+    
+  </aside>
+
+  <div
+    class="sidebar-overlay"
+    [class.show]="isSidebarOpen"
+    (click)="closeSidebar()">
+  </div>
+  
+</div> -->
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div class="sidebar-wrapper">
+
+  <button
+    class="hamburger-btn"
+    *ngIf="!isSidebarOpen"
+    (click)="toggleSidebar()">
+    <i class="bi bi-list"></i>
+  </button>
+
+  <aside class="sidebar bg-white" [class.open]="isSidebarOpen">
+
+    <div class="sidebar-content">
+      <div class="sidebar-header px-3 pt-4 pb-3">
+        <h4 class="fw-bold mb-0 d-flex align-items-center gap-2">
+          <span class="text-warning fs-3">📦</span>
+          <span>ShoppingHub</span>
+        </h4>
+      </div>
+      <hr class="my-2">
+
+      <div class="px-3 mb-2">
+        <small class="text-uppercase text-muted fw-semibold">Dashboard</small>
+      </div>
+
+      <nav class="sidebar-nav px-3">
+        
+        <a
+          class="nav-link d-flex align-items-center gap-2 px-3 py-2 rounded-2 text-decoration-none mb-1"
+          routerLink="users"
+          routerLinkActive="active"
+        >
+          <i class="bi bi-people text-muted"></i>
+          <span>Users</span>
+        </a>
+
+        <a
+          class="nav-link d-flex align-items-center gap-2 px-3 py-2 rounded-2 text-decoration-none mb-1"
+          routerLink="posts"
+          routerLinkActive="active"
+        >
+          <i class="bi bi-box text-muted"></i>
+          <span>Products</span>
+        </a>
+
+        <a
+          class="nav-link d-flex align-items-center gap-2 px-3 py-2 rounded-2 text-decoration-none"
+          routerLink="cart"
+          routerLinkActive="active"
+        >
+          <i class="bi bi-cart text-muted"></i>
+          <span>Cart</span>
+        </a>
+        
+      </nav>
+    </div>
+
+    <div class="sidebar-footer px-3 pb-3 pt-2">
       <button
         class="btn btn-outline-danger w-100 d-flex align-items-center gap-2 py-2"
         (click)="logout()"

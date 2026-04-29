@@ -128,22 +128,6 @@ export class Users implements OnInit {
         this.formErrors.email = '';
         return true;
         
-      // case 'username':
-      //   if (this.formUser.username) {
-      //     if (this.formUser.username.length < 3) {
-      //       this.formErrors.username = 'Username must be at least 3 characters';
-      //       return false;
-      //     } else if (this.formUser.username.length > 30) {
-      //       this.formErrors.username = 'Username cannot exceed 30 characters';
-      //       return false;
-      //     } else if (!/^[a-zA-Z0-9_]+$/.test(this.formUser.username)) {
-      //       this.formErrors.username = 'Username can only contain letters, numbers, and underscores';
-      //       return false;
-      //     }
-      //   }
-      //   this.formErrors.username = '';
-      //   return true;
-        
       default:
         return true;
     }

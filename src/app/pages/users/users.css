@@ -240,3 +240,33 @@ html {
     padding-right: 0.75rem;
   }
 }
+
+
+
+
+
+
+.table-responsive {
+  -webkit-overflow-scrolling: touch;
+}
+
+.table td, .table th {
+  white-space: nowrap;
+  vertical-align: middle;
+}
+
+.btn:focus {
+  box-shadow: none;
+}
+
+@media (max-width: 575.98px) {
+  .container-fluid {
+    padding-left: 0.5rem;
+    padding-right: 0.5rem;
+  }
+  
+  .table-responsive {
+    margin: 0 -0.5rem;
+    width: calc(100% + 1rem);
+  }
+}
