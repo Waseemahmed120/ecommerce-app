@@ -33,7 +33,7 @@
 
 
 .login-page {
-  background: linear-gradient(135deg, #f0fdf4 0%, #dcfce7 50%, #f0fdf4 100%);
+  /* background: linear-gradient(135deg, #f0fdf4 0%, #dcfce7 50%, #f0fdf4 100%); */
   min-height: 100vh;
 }
 

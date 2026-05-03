@@ -1,16 +1,8 @@
-
+<!-- 
 <header class="header bg-white shadow-sm">
   <div class="container-fluid px-3">
     <div class="d-flex justify-content-between align-items-center py-3">
       
-      <!-- <button class="hamburger-btn" (click)="toggleSidebar()">
-        <i class="bi bi-list"></i>
-      </button> -->
-
-
-      <!-- <button class="hamburger-btn">
-  <i class="bi bi-list"></i>
-</button> -->
 
       <div class="d-flex align-items-center gap-3 ms-auto">
         <div class="cart-icon position-relative" (click)="goToCart()" style="cursor: pointer;">
@@ -28,5 +20,57 @@
 
     </div>
   </div>
-</header>
+</header> -->
 
+
+
+
+
+
+
+
+
+<header class="header bg-white shadow-sm">
+  <div class="container-fluid">
+
+    <div class="header-inner">
+
+      <!-- Left Side : Hamburger -->
+      <div class="left-section">
+        <button
+          class="hamburger-btn"
+          (click)="toggleSidebar()"
+          type="button"
+        >
+          <i class="bi bi-list"></i>
+        </button>
+      </div>
+
+      <!-- Center : Brand -->
+      <a class="brand">
+        📦 ShoppingHub
+      </a>
+
+      <!-- Right Side : Cart -->
+      <div class="right-section">
+        <div
+          class="cart-icon position-relative"
+          (click)="goToCart()"
+          style="cursor: pointer;"
+        >
+          <i class="bi bi-cart3"></i>
+
+          <span
+            *ngIf="cartCount > 0"
+            class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger"
+            style="font-size: 0.65rem;"
+          >
+            {{ cartCount }}
+            <span class="visually-hidden">items in cart</span>
+          </span>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</header>

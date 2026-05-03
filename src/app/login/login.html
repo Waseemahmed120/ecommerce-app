@@ -15,19 +15,18 @@
 
           <form [formGroup]="loginForm" (ngSubmit)="login()" novalidate>
             
-            <!-- Email Input -->
             <div class="mb-3">
-              <label for="username" class="form-label small fw-semibold text-muted">Email Address</label>
+              <label for="username" class="form-label small fw-semibold text-muted">Username</label>
               <div class="input-group">
                 <span class="input-group-text bg-white border-end-0">
-                  <i class="bi bi-envelope text-muted"></i>
+                  <i class="bi bi-person text-muted"></i>
                 </span>
                 <input 
                   type="text" 
                   id="username"
                   class="form-control border-start-0 ps-0"
                   [class.is-invalid]="usernameControl?.invalid && usernameControl?.touched"
-                  placeholder="email@example.com"
+                  placeholder="Enter your username"
                   formControlName="username"
                   autocomplete="off"
                 />

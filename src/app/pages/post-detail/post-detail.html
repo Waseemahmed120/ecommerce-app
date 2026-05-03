@@ -103,7 +103,7 @@
       
       <div class="row g-3">
         <div class="col-6 col-md-4 col-lg-3" *ngFor="let sp of displayedSuggestedProducts; let i = index" 
-             [style.animation]="'fadeSlideIn 0.4s ease ' + (i * 0.06) + 's both'">
+             [style.animation]="'fadeSlideIn 4s ease ' + (i * 0.4) + 's both'">
           <div class="card shadow-sm border-0 rounded-3 h-100 product-card" style="cursor: pointer;" (click)="viewSuggestedProduct(sp.id)">
             <div class="bg-light rounded-top-3 d-flex align-items-center justify-content-center" style="height: 140px; overflow: hidden;">
               <img [src]="sp.images[0]" 

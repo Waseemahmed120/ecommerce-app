@@ -127,7 +127,7 @@ export class PostDetail implements OnInit, OnDestroy {
         this.currentIndex = (this.currentIndex + 1) % this.allSuggestedProducts.length;
         this.updateDisplayedProducts();
         this.cdr.detectChanges();
-      }, 1000);
+      }, 4000);
     }
   }
 
