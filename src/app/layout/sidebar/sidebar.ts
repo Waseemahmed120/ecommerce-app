@@ -31,12 +31,16 @@ export class Sidebar {
   toggleSidebar(): void {
     this.isSidebarOpen = !this.isSidebarOpen;
     this.sidebarToggled.emit(this.isSidebarOpen);
+    document.body.style.overflow = this.isSidebarOpen ? 'hidden' : '';
   }
 
   closeSidebar(): void {
     this.isSidebarOpen = false;
     this.sidebarToggled.emit(false);
+    document.body.style.overflow = '';
+
   }
+  
 
   logout(): void {
     this.auth.logout();
